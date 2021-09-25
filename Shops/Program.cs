@@ -12,19 +12,19 @@ namespace Shops
             Shop adidas = a.AddNewShop("Adidas", "Vietnam");
             Shop nike = a.AddNewShop("Nike", "Russia");
             Console.WriteLine(adidas.Name + " " + adidas.Adress);
-            adidas.AddNewProduct("sneaker", 100, 10);
-            adidas.ShowProduct();
-            nike.AddNewProduct("sneaker", 99, 9);
-            nike.AddNewProduct("T-shirt", 80, 7);
-            nike.ShowProduct();
-            a.ChangeProductPrice(nike, "sneaker", 200);
+            a.AddNewProduct(adidas, "sneaker", 100, 10);
+            a.ShowProduct(adidas);
+            a.AddNewProduct(nike, "sneaker", 99, 9);
+            a.AddNewProduct(nike, "T-shirt", 80, 7);
+            a.ShowProduct(nike);
+            a.ChangeProductPrice(nike, "sneaker", 169);
             a.TheCheapestShopToBuy("sneaker", 10);
-            nike.ShowProduct();
-            nike.AddAvailableProduct("sneaker", 69);
-            nike.ShowProduct();
+            a.ShowProduct(nike);
+            a.AddAvailableProduct(nike, "sneaker", 69);
+            a.ShowProduct(nike);
             var mrA = new Customer("A", 1000);
             a.BuyProducts(nike, "T-shirt", 5, mrA);
-            nike.ShowProduct();
+            a.ShowProduct(nike);
             Console.WriteLine(mrA.Wallet);
         }
     }

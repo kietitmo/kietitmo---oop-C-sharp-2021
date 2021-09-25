@@ -21,6 +21,48 @@ namespace Shops.ShopManagement
             return newShop;
         }
 
+        public void ChangeProductPrice(Shop shop, Product product, double newPrice)
+        {
+            shop.Storage.ChangePrice(product, newPrice);
+            return;
+        }
+
+        public void ChangeProductPrice(Shop shop, string productName, double newPrice)
+        {
+            shop.Storage.ChangePrice(productName, newPrice);
+            return;
+        }
+
+        public Product AddNewProduct(Shop shop, Product product)
+        {
+            return shop.Storage.AddNewProduct(product);
+        }
+
+        public Product AddNewProduct(Shop shop, string productName, double productPrice, int quantity)
+        {
+            return shop.Storage.AddNewProduct(productName, productPrice, quantity);
+        }
+
+        public Product AddAvailableProduct(Shop shop, Product product, int amount)
+        {
+            return shop.Storage.AddAvailableProduct(product, amount);
+        }
+
+        public Product AddAvailableProduct(Shop shop, string productName, int amount)
+        {
+            return shop.Storage.AddAvailableProduct(productName, amount);
+        }
+
+        public void DeleteProduct(Shop shop, Product product)
+        {
+            shop.Storage.DeleteProduct(product);
+        }
+
+        public void DeleteProduct(Shop shop, string productName)
+        {
+            shop.Storage.DeleteProduct(productName);
+        }
+
         public Shop TheCheapestShopToBuy(Product product, int amount)
         {
             var listProductTemp = new List<KeyValuePair<Product, Shop>>();
@@ -115,16 +157,14 @@ namespace Shops.ShopManagement
             return;
         }
 
-        public void ChangeProductPrice(Shop shop, Product product, double newPrice)
+        public void ShowProduct(Shop shop)
         {
-            shop.ChangeProductPrice(product, newPrice);
-            return;
-        }
-
-        public void ChangeProductPrice(Shop shop, string productName, double newPrice)
-        {
-            shop.ChangeProductPrice(productName, newPrice);
-            return;
+            Console.WriteLine("\nStore: " + shop.Name + " " + shop.Adress);
+            Console.WriteLine("Product" + "\t\t\tPrice/one: " + "\t\tAvailable Quantity: ");
+            for (int i = 0; i < shop.Storage.ProcductStorage.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + shop.Storage.ProcductStorage[i].Name + "\t\t" + shop.Storage.ProcductStorage[i].PricePerOne + "\t\t\t" + shop.Storage.ProcductStorage[i].Quantity);
+            }
         }
     }
 }
