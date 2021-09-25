@@ -2,6 +2,7 @@
 {
     public interface IIsuService
     {
+        /*
         //Group AddGroup(string name);
         //Student AddStudent(Group group, string name);
 
@@ -14,5 +15,6 @@
         //List<Group> FindGroups(CourseNumber courseNumber);
 
         //void ChangeStudentGroup(Student student, Group newGroup);
+        */
     }
 }
