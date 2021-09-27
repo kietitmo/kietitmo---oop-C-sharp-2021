@@ -4,29 +4,29 @@ namespace Shops.Classes
 {
     public class Shop
     {
-        private static int count = 0;
-        private string name;
-        private int iD = ++count;
-        private string adress;
-        private Storage storage;
+        private static int _count = 0;
+        private string _name;
+        private int iD = ++_count;
+        private string _adress;
+        private Storage _storage;
         public Shop(string shopName, string shopAdress)
         {
             Name = shopName;
             Adress = shopAdress;
-            storage = new Storage();
+            _storage = new Storage();
         }
 
         public string Name
         {
             get
             {
-                return name;
+                return _name;
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    name = value;
+                    _name = value;
                 }
                 else
                 {
@@ -39,13 +39,13 @@ namespace Shops.Classes
         {
             get
             {
-                return adress;
+                return _adress;
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    adress = value;
+                    _adress = value;
                 }
                 else
                 {
@@ -54,6 +54,6 @@ namespace Shops.Classes
             }
         }
 
-        public Storage Storage { get => storage; set => storage = value; }
+        public Storage Storage { get => _storage; set => _storage = value; }
     }
 }

@@ -7,13 +7,15 @@ namespace Shops.ShopManagement
 {
     public class ShopManager
     {
-        private List<Shop> shopList = null;
+        private List<Shop> _shopList = null;
         public ShopManager()
         {
             ShopList = new List<Shop>();
         }
 
-        internal List<Shop> ShopList { get => shopList; set => shopList = value; }
+        public List<Shop> ShopList { get => _shopList; set => _shopList = value; }
+
+        //// Add new shop
         public Shop AddNewShop(string shopName, string shopAdress)
         {
             var newShop = new Shop(shopName, shopAdress);
@@ -21,6 +23,18 @@ namespace Shops.ShopManagement
             return newShop;
         }
 
+        //// Add new product in a shop
+        public Product AddNewProduct(Shop shop, Product product)
+        {
+            return shop.Storage.AddNewProduct(product);
+        }
+
+        public Product AddNewProduct(Shop shop, string productName, double productPrice, int quantity)
+        {
+            return shop.Storage.AddNewProduct(productName, productPrice, quantity);
+        }
+
+        //// Change price of product in a shop
         public void ChangeProductPrice(Shop shop, Product product, double newPrice)
         {
             shop.Storage.ChangePrice(product, newPrice);
@@ -33,16 +47,7 @@ namespace Shops.ShopManagement
             return;
         }
 
-        public Product AddNewProduct(Shop shop, Product product)
-        {
-            return shop.Storage.AddNewProduct(product);
-        }
-
-        public Product AddNewProduct(Shop shop, string productName, double productPrice, int quantity)
-        {
-            return shop.Storage.AddNewProduct(productName, productPrice, quantity);
-        }
-
+        //// Add a quantity of available product to storage
         public Product AddAvailableProduct(Shop shop, Product product, int amount)
         {
             return shop.Storage.AddAvailableProduct(product, amount);
@@ -53,6 +58,7 @@ namespace Shops.ShopManagement
             return shop.Storage.AddAvailableProduct(productName, amount);
         }
 
+        //// Delete a product
         public void DeleteProduct(Shop shop, Product product)
         {
             shop.Storage.DeleteProduct(product);
@@ -63,27 +69,30 @@ namespace Shops.ShopManagement
             shop.Storage.DeleteProduct(productName);
         }
 
+        //// Find cheapest shop with amount of product
         public Shop TheCheapestShopToBuy(Product product, int amount)
         {
             var listProductTemp = new List<KeyValuePair<Product, Shop>>();
-            for (int i = 0; i < shopList.Count; i++)
+            for (int i = 0; i < ShopList.Count; i++)
             {
-                for (int j = 0; j < shopList[i].Storage.ProcductStorage.Count; j++)
+                for (int j = 0; j < ShopList[i].Storage.ProcductStorage.Count; j++)
                 {
-                    if (shopList[i].Storage.ProcductStorage[j].Name == product.Name && shopList[i].Storage.ProcductStorage[j].Quantity >= amount)
+                    //// Find shop contains enough quantity product
+                    if (ShopList[i].Storage.ProcductStorage[j].Name == product.Name && ShopList[i].Storage.ProcductStorage[j].Quantity >= amount)
                     {
-                        listProductTemp.Add(new KeyValuePair<Product, Shop>(shopList[i].Storage.ProcductStorage[j], shopList[i]));
+                        listProductTemp.Add(new KeyValuePair<Product, Shop>(ShopList[i].Storage.ProcductStorage[j], ShopList[i]));
                     }
                 }
             }
 
-            if (listProductTemp.Count == 0)
+            if (listProductTemp.Count == 0) //// If listProductTemp == null, it means No products were found
             {
                 return null;
                 throw new ShopException("Product Is Not Enough in any shop");
             }
             else
             {
+                //// find Shop with min Price
                 KeyValuePair<Product, Shop> minPrice = listProductTemp[0];
                 for (int i = 1; i < listProductTemp.Count; i++)
                 {
@@ -100,13 +109,13 @@ namespace Shops.ShopManagement
         public Shop TheCheapestShopToBuy(string productName, int amount)
         {
             var listProductTemp = new List<KeyValuePair<Product, Shop>>();
-            for (int i = 0; i < shopList.Count; i++)
+            for (int i = 0; i < ShopList.Count; i++)
             {
-                for (int j = 0; j < shopList[i].Storage.ProcductStorage.Count; j++)
+                for (int j = 0; j < ShopList[i].Storage.ProcductStorage.Count; j++)
                 {
-                    if (shopList[i].Storage.ProcductStorage[j].Name == productName && shopList[i].Storage.ProcductStorage[j].Quantity >= amount)
+                    if (ShopList[i].Storage.ProcductStorage[j].Name == productName && ShopList[i].Storage.ProcductStorage[j].Quantity >= amount)
                     {
-                        listProductTemp.Add(new KeyValuePair<Product, Shop>(shopList[i].Storage.ProcductStorage[j], shopList[i]));
+                        listProductTemp.Add(new KeyValuePair<Product, Shop>(ShopList[i].Storage.ProcductStorage[j], ShopList[i]));
                     }
                 }
             }
@@ -133,6 +142,7 @@ namespace Shops.ShopManagement
             }
         }
 
+        //// Customer buy amount of product
         public void BuyProducts(Shop shop, string productName, int amount, Customer customer)
         {
             Product productNeedToBuy = shop.Storage.FindProduct(productName);
@@ -157,6 +167,7 @@ namespace Shops.ShopManagement
             return;
         }
 
+        //// Show products in a shop
         public void ShowProduct(Shop shop)
         {
             Console.WriteLine("\nStore: " + shop.Name + " " + shop.Adress);

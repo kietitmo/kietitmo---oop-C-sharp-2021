@@ -5,17 +5,18 @@ namespace Shops.Classes
 {
     public class Storage
     {
-        private List<Product> procductStorage = null;
+        private List<Product> _procductStorage = null;
         public Storage()
         {
             ProcductStorage = new List<Product>();
         }
 
-        public List<Product> ProcductStorage { get => procductStorage; set => procductStorage = value; }
+        public List<Product> ProcductStorage { get => _procductStorage; set => _procductStorage = value; }
 
+        //// Add new product to Storage
         public Product AddNewProduct(Product newProduct)
         {
-            if (!(FindProduct(newProduct.Name) == null))
+            if (FindProduct(newProduct.Name) != null)
             {
                 throw new ShopException("Adding Available Product Exception");
             }
@@ -36,6 +37,7 @@ namespace Shops.Classes
             return newProduct;
         }
 
+        //// Change price of availabe product in Storage
         public Product ChangePrice(Product product, double newPrice)
         {
             Product tempProduct = FindProduct(product.Name);
@@ -64,6 +66,7 @@ namespace Shops.Classes
             }
         }
 
+        //// add a quantity of available product to storage
         public Product AddAvailableProduct(Product product, int amount)
         {
             Product tempProduct = FindProduct(product);
@@ -95,11 +98,11 @@ namespace Shops.Classes
         //// Delete product
         public void DeleteProduct(string productName)
         {
-            for (int i = 0; i < procductStorage.Count; i++)
+            for (int i = 0; i < ProcductStorage.Count; i++)
             {
-                if (productName == procductStorage[i].Name)
+                if (productName == ProcductStorage[i].Name)
                 {
-                    procductStorage.RemoveAt(i);
+                    ProcductStorage.RemoveAt(i);
                     return;
                 }
             }
@@ -110,11 +113,11 @@ namespace Shops.Classes
 
         public void DeleteProduct(Product product)
         {
-            for (int i = 0; i < procductStorage.Count; i++)
+            for (int i = 0; i < ProcductStorage.Count; i++)
             {
-                if (product.Name == procductStorage[i].Name)
+                if (product.Name == ProcductStorage[i].Name)
                 {
-                    procductStorage.RemoveAt(i);
+                    ProcductStorage.RemoveAt(i);
                     return;
                 }
             }
@@ -126,11 +129,11 @@ namespace Shops.Classes
         //// Find a product
         public Product FindProduct(string productName)
         {
-            for (int i = 0; i < procductStorage.Count; i++)
+            for (int i = 0; i < ProcductStorage.Count; i++)
             {
-                if (productName == procductStorage[i].Name)
+                if (productName == ProcductStorage[i].Name)
                 {
-                    return procductStorage[i];
+                    return ProcductStorage[i];
                 }
             }
 
@@ -140,11 +143,11 @@ namespace Shops.Classes
 
         public Product FindProduct(Product product)
         {
-            for (int i = 0; i < procductStorage.Count; i++)
+            for (int i = 0; i < ProcductStorage.Count; i++)
             {
-                if (product.Name == procductStorage[i].Name)
+                if (product.Name == ProcductStorage[i].Name)
                 {
-                    return procductStorage[i];
+                    return ProcductStorage[i];
                 }
             }
 

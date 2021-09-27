@@ -28,6 +28,7 @@ namespace Shops.Classes
                 }
                 else
                 {
+                    //// If name is null then throw exception
                     throw new ShopException("NameOfProductNullException");
                 }
             }
@@ -41,12 +42,13 @@ namespace Shops.Classes
             }
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     pricePerOne = value;
                 }
                 else
                 {
+                    //// If price is negative then throw exception
                     throw new ShopException("PriceNegativeException");
                 }
             }
@@ -60,12 +62,13 @@ namespace Shops.Classes
             }
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     quantity = value;
                 }
                 else
                 {
+                    //// If quantity of product is negative then throw exception
                     throw new ShopException("AmountNegativeException");
                 }
             }

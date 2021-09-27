@@ -4,37 +4,37 @@ namespace Shops.Classes
 {
     public class Customer
     {
-        private static int createID = 0;
-        private string name;
-        private double wallet;
-        private int iD;
+        private static int _createID = 0;
+        private string _name;
+        private double _wallet;
+        private int _iD;
         public Customer(string name, double wallet)
         {
             Name = name;
             Wallet = wallet;
-            iD = ++createID;
+            _iD = ++_createID;
         }
 
         public string Name
         {
             get
             {
-                return name;
+                return _name;
             }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new ShopException("Name Of Custumer Can Be Null");
+                    throw new ShopException("Name Of Custumer Is Null Exception");
                 }
                 else
                 {
-                    name = value;
+                    _name = value;
                 }
             }
         }
 
-        public double Wallet { get => wallet; set => wallet = value; }
-        public int ID { get => iD; }
+        public double Wallet { get => _wallet; set => _wallet = value; }
+        public int ID { get => _iD; }
     }
 }
