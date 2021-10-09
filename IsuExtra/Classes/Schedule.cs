@@ -107,22 +107,22 @@ namespace IsuExtra.Classes
         {
             for (int i = 0; i < day.Count; i++)
             {
-                if (para.StartTime <= day[i].StartTime && para.EndTime >= day[i].EndTime)
+                if (para.StartTime < day[i].StartTime && para.EndTime > day[i].EndTime)
                 {
                     return true;
                 }
 
-                if (para.StartTime >= day[i].StartTime && para.EndTime <= day[i].EndTime)
+                if (para.StartTime > day[i].StartTime && para.EndTime < day[i].EndTime)
                 {
                     return true;
                 }
 
-                if (para.StartTime <= day[i].StartTime && para.EndTime >= day[i].StartTime)
+                if (para.StartTime < day[i].StartTime && para.EndTime > day[i].StartTime)
                 {
                     return true;
                 }
 
-                if (para.StartTime >= day[i].EndTime && para.EndTime <= day[i].EndTime)
+                if (para.StartTime > day[i].EndTime && para.EndTime < day[i].EndTime)
                 {
                     return true;
                 }
