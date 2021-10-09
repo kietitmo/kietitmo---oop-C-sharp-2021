@@ -26,7 +26,7 @@ namespace Isu.Classes
             }
             set
             {
-                if (value.Length != 5 || value[0] != 'M' || value[1] != '3' || string.IsNullOrEmpty(value))
+                if (value.Length != 5 || !char.IsLetter(value[0]) || string.IsNullOrEmpty(value))
                 {
                     //// if group name is wrong (!= M3XYY), throw exception
                     throw new IsuException("Wrong_Group_Name_Exception");
@@ -73,7 +73,7 @@ namespace Isu.Classes
 
         private CourseNumber GetCourseFromName(string groupName)
         {
-            if (groupName.Length != 5 || groupName[0] != 'M' || groupName[1] != '3' || string.IsNullOrEmpty(groupName))
+            if (groupName.Length != 5 || !char.IsLetter(groupName[0]) || string.IsNullOrEmpty(groupName))
             {
                 //// if group name is wrong (!= M3XYY), throw exception
                 throw new IsuException("Wrong_Group_Name_Exception");
@@ -87,7 +87,7 @@ namespace Isu.Classes
 
         private int GetGroupNum(string groupName)
         {
-            if (groupName.Length != 5 || groupName[0] != 'M' || groupName[1] != '3' || string.IsNullOrEmpty(groupName))
+            if (groupName.Length != 5 || !char.IsLetter(groupName[0]) || string.IsNullOrEmpty(groupName))
             {
                 //// if group name is wrong (!= M3XYY), throw exception
                 throw new IsuException("Wrong_Group_Name_Exception");
