@@ -5,37 +5,37 @@ namespace IsuExtra.Classes
 {
     public class Schedule
     {
-        private List<Para> monday;
-        private List<Para> tuesday;
-        private List<Para> wednesday;
-        private List<Para> thursday;
-        private List<Para> friday;
-        private List<Para> saturday;
+        private List<Para> paraOfMonday;
+        private List<Para> paraOfTuesday;
+        private List<Para> paraOfWednesday;
+        private List<Para> paraOfthursday;
+        private List<Para> paraOfFriday;
+        private List<Para> paraOfSaturday;
         public Schedule()
         {
-            Monday = new List<Para>();
-            Tuesday = new List<Para>();
-            Wednesday = new List<Para>();
-            Thursday = new List<Para>();
-            Friday = new List<Para>();
-            Saturday = new List<Para>();
+            ParaOfMonday = new List<Para>();
+            ParaOfTuesday = new List<Para>();
+            ParaOfWednesday = new List<Para>();
+            ParaOfThursday = new List<Para>();
+            ParaOfFriday = new List<Para>();
+            ParaOfSaturday = new List<Para>();
         }
 
-        public List<Para> Monday { get => monday; set => monday = value; }
-        public List<Para> Tuesday { get => tuesday; set => tuesday = value; }
-        public List<Para> Wednesday { get => wednesday; set => wednesday = value; }
-        public List<Para> Thursday { get => thursday; set => thursday = value; }
-        public List<Para> Friday { get => friday; set => friday = value; }
-        public List<Para> Saturday { get => saturday; set => saturday = value; }
+        public List<Para> ParaOfMonday { get => paraOfMonday; set => paraOfMonday = value; }
+        public List<Para> ParaOfTuesday { get => paraOfTuesday; set => paraOfTuesday = value; }
+        public List<Para> ParaOfWednesday { get => paraOfWednesday; set => paraOfWednesday = value; }
+        public List<Para> ParaOfThursday { get => paraOfthursday; set => paraOfthursday = value; }
+        public List<Para> ParaOfFriday { get => paraOfFriday; set => paraOfFriday = value; }
+        public List<Para> ParaOfSaturday { get => paraOfSaturday; set => paraOfSaturday = value; }
 
         public Para AddPara(Para para, string day)
         {
             switch (day)
             {
                 case "monday":
-                    if (!IsParaExists(para, Monday))
+                    if (!IsThisParaInvalid(para, ParaOfMonday))
                     {
-                        Monday.Add(para);
+                        ParaOfMonday.Add(para);
                         return para;
                     }
                     else
@@ -44,9 +44,9 @@ namespace IsuExtra.Classes
                     }
 
                 case "tuesday":
-                    if (!IsParaExists(para, Tuesday))
+                    if (!IsThisParaInvalid(para, ParaOfTuesday))
                     {
-                        Tuesday.Add(para);
+                        ParaOfTuesday.Add(para);
                         return para;
                     }
                     else
@@ -55,9 +55,9 @@ namespace IsuExtra.Classes
                     }
 
                 case "wednesday":
-                    if (!IsParaExists(para, Wednesday))
+                    if (!IsThisParaInvalid(para, ParaOfWednesday))
                     {
-                        Wednesday.Add(para);
+                        ParaOfWednesday.Add(para);
                         return para;
                     }
                     else
@@ -66,9 +66,9 @@ namespace IsuExtra.Classes
                     }
 
                 case "thursday":
-                    if (!IsParaExists(para, Thursday))
+                    if (!IsThisParaInvalid(para, ParaOfThursday))
                     {
-                        Thursday.Add(para);
+                        ParaOfThursday.Add(para);
                         return para;
                     }
                     else
@@ -77,9 +77,9 @@ namespace IsuExtra.Classes
                     }
 
                 case "friday":
-                    if (!IsParaExists(para, Friday))
+                    if (!IsThisParaInvalid(para, ParaOfFriday))
                     {
-                        Friday.Add(para);
+                        ParaOfFriday.Add(para);
                         return para;
                     }
                     else
@@ -88,9 +88,9 @@ namespace IsuExtra.Classes
                     }
 
                 case "saturday":
-                    if (!IsParaExists(para, Saturday))
+                    if (!IsThisParaInvalid(para, ParaOfSaturday))
                     {
-                        Saturday.Add(para);
+                        ParaOfSaturday.Add(para);
                         return para;
                     }
                     else
@@ -103,7 +103,8 @@ namespace IsuExtra.Classes
             }
         }
 
-        public bool IsParaExists(Para para, List<Para> day)
+        //// Checking Para is cut other para in List Para (of one day)
+        public bool IsThisParaInvalid(Para para, List<Para> day)
         {
             for (int i = 0; i < day.Count; i++)
             {
@@ -131,59 +132,52 @@ namespace IsuExtra.Classes
             return false;
         }
 
+        //// Check 2 Schedule are intersect each other
         public bool IsIntersectOther(Schedule other)
         {
-            for (int i = 0; i < Monday.Count; i++)
+            for (int i = 0; i < ParaOfMonday.Count; i++)
             {
-                if (IsParaExists(Monday[i], other.Monday))
+                if (IsThisParaInvalid(ParaOfMonday[i], other.ParaOfMonday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < Tuesday.Count; i++)
+            for (int i = 0; i < ParaOfTuesday.Count; i++)
             {
-                if (IsParaExists(Tuesday[i], other.Tuesday))
+                if (IsThisParaInvalid(ParaOfTuesday[i], other.ParaOfTuesday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < Wednesday.Count; i++)
+            for (int i = 0; i < ParaOfWednesday.Count; i++)
             {
-                if (IsParaExists(Wednesday[i], other.Wednesday))
+                if (IsThisParaInvalid(ParaOfWednesday[i], other.ParaOfWednesday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < Thursday.Count; i++)
+            for (int i = 0; i < ParaOfThursday.Count; i++)
             {
-                if (IsParaExists(Thursday[i], other.Thursday))
+                if (IsThisParaInvalid(ParaOfThursday[i], other.ParaOfThursday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < Thursday.Count; i++)
+            for (int i = 0; i < ParaOfFriday.Count; i++)
             {
-                if (IsParaExists(Thursday[i], other.Thursday))
+                if (IsThisParaInvalid(ParaOfFriday[i], other.ParaOfFriday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < Friday.Count; i++)
+            for (int i = 0; i < ParaOfSaturday.Count; i++)
             {
-                if (IsParaExists(Friday[i], other.Friday))
-                {
-                    return true;
-                }
-            }
-
-            for (int i = 0; i < Saturday.Count; i++)
-            {
-                if (IsParaExists(Saturday[i], other.Saturday))
+                if (IsThisParaInvalid(ParaOfSaturday[i], other.ParaOfSaturday))
                 {
                     return true;
                 }
