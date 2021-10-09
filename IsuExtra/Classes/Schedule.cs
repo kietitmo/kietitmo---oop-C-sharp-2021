@@ -5,12 +5,21 @@ namespace IsuExtra.Classes
 {
     public class Schedule
     {
-        private List<Para> monday = new List<Para>();
+        private List<Para> monday;
         private List<Para> tuesday;
         private List<Para> wednesday;
         private List<Para> thursday;
         private List<Para> friday;
         private List<Para> saturday;
+        public Schedule()
+        {
+            Monday = new List<Para>();
+            Tuesday = new List<Para>();
+            Wednesday = new List<Para>();
+            Thursday = new List<Para>();
+            Friday = new List<Para>();
+            Saturday = new List<Para>();
+        }
 
         public List<Para> Monday { get => monday; set => monday = value; }
         public List<Para> Tuesday { get => tuesday; set => tuesday = value; }
@@ -31,7 +40,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Monday) Another Para Exists Exception");
                     }
 
                 case "tuesday":
@@ -42,7 +51,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Tuesday) Another Para Exists Exception");
                     }
 
                 case "wednesday":
@@ -53,7 +62,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Wednesday) Another Para Exists Exception");
                     }
 
                 case "thursday":
@@ -64,7 +73,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Thursday) Another Para Exists Exception");
                     }
 
                 case "friday":
@@ -75,7 +84,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Friday) Another Para Exists Exception");
                     }
 
                 case "saturday":
@@ -86,7 +95,7 @@ namespace IsuExtra.Classes
                     }
                     else
                     {
-                        throw new IsuException("Another Para Exists Exception");
+                        throw new IsuException("(Saturday) Another Para Exists Exception");
                     }
 
                 default:
@@ -94,7 +103,7 @@ namespace IsuExtra.Classes
             }
         }
 
-        private bool IsParaExists(Para para, List<Para> day)
+        public bool IsParaExists(Para para, List<Para> day)
         {
             for (int i = 0; i < day.Count; i++)
             {
@@ -108,12 +117,73 @@ namespace IsuExtra.Classes
                     return true;
                 }
 
-                if (para.StartTime <= day[i].StartTime && para.EndTime <= day[i].EndTime)
+                if (para.StartTime <= day[i].StartTime && para.EndTime >= day[i].StartTime)
                 {
                     return true;
                 }
 
-                if (para.StartTime >= day[i].StartTime && para.EndTime >= day[i].EndTime)
+                if (para.StartTime >= day[i].EndTime && para.EndTime <= day[i].EndTime)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsIntersectOther(Schedule other)
+        {
+            for (int i = 0; i < Monday.Count; i++)
+            {
+                if (IsParaExists(Monday[i], other.Monday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Tuesday.Count; i++)
+            {
+                if (IsParaExists(Tuesday[i], other.Tuesday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Wednesday.Count; i++)
+            {
+                if (IsParaExists(Wednesday[i], other.Wednesday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Thursday.Count; i++)
+            {
+                if (IsParaExists(Thursday[i], other.Thursday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Thursday.Count; i++)
+            {
+                if (IsParaExists(Thursday[i], other.Thursday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Friday.Count; i++)
+            {
+                if (IsParaExists(Friday[i], other.Friday))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < Saturday.Count; i++)
+            {
+                if (IsParaExists(Saturday[i], other.Saturday))
                 {
                     return true;
                 }
