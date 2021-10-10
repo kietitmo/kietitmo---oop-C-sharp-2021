@@ -5,12 +5,14 @@ namespace IsuExtra.Classes
 {
     public class Schedule
     {
+        //// Every day of week hava a list of para
         private List<Para> paraOfMonday;
         private List<Para> paraOfTuesday;
         private List<Para> paraOfWednesday;
         private List<Para> paraOfthursday;
         private List<Para> paraOfFriday;
         private List<Para> paraOfSaturday;
+
         public Schedule()
         {
             ParaOfMonday = new List<Para>();
@@ -28,6 +30,7 @@ namespace IsuExtra.Classes
         public List<Para> ParaOfFriday { get => paraOfFriday; set => paraOfFriday = value; }
         public List<Para> ParaOfSaturday { get => paraOfSaturday; set => paraOfSaturday = value; }
 
+        //// Add para into a day of week
         public Para AddPara(Para para, string day)
         {
             switch (day)

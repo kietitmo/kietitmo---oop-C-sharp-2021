@@ -41,6 +41,10 @@ namespace Isu.Tests
             scheduleOGNP2.AddPara(para2OGNP2, "monday");
             var potokOGNP2 = new Potok(scheduleOGNP1, lecturer2);
             ognp1.PotokOGNP.Add(potokOGNP2);
+
+            //// add ognp 1
+            ognpTest.AddNewOGNP(ognp1);
+            Assert.AreEqual(ognpTest.OgnpList.Count, 1);
         }
 
         [Test]
@@ -69,6 +73,8 @@ namespace Isu.Tests
             //// Students Register OGNP
             ognpTest.AddNewOGNP(ognp1);
             ognpTest.StudentRegistersOGNP(kiet, m3212, ognp1, potokOGNP1);
+            List<Student> sutdentList = ognpTest.GetStudentsOfOGNP(ognp1);
+            Assert.AreEqual(sutdentList.Count, 1);
         }
 
         [Test]
@@ -97,6 +103,11 @@ namespace Isu.Tests
             //// Students Register OGNP
             ognpTest.AddNewOGNP(ognp1);
             ognpTest.StudentRegistersOGNP(kiet, m3212, ognp1, potokOGNP1);
+
+            //// Student Unregister OGNP
+            ognpTest.DeleteRegistration(kiet, potokOGNP1);
+            List<Student> sutdentList = ognpTest.GetStudentsOfOGNP(ognp1);
+            Assert.AreEqual(sutdentList.Count, 0);
         }
 
         [Test]
@@ -217,15 +228,16 @@ namespace Isu.Tests
 
             var test = new OGNPManagement();
             test.AddNewOGNP(ognp1);
+
+            //// 5 Students register ognp1
             test.StudentRegistersOGNP(kiet, m3212, ognp1, potokOGNP1);
             test.StudentRegistersOGNP(mason, p3212, ognp1, potokOGNP1);
             test.StudentRegistersOGNP(leo, k3232, ognp1, potokOGNP1);
             test.StudentRegistersOGNP(ronaldo, r3202, ognp1, potokOGNP1);
-
             test.StudentRegistersOGNP(nam, m3212, ognp1, potokOGNP2);
 
             List<Student> listOGNP1 = test.GetStudentsOfOGNP(ognp1);
-            test.Show(listOGNP1);
+            Assert.AreEqual(listOGNP1.Count, 5);
         }
 
         [Test]
@@ -236,8 +248,6 @@ namespace Isu.Tests
             var nam = new Student("Nam", "M3212");
             var kien = new Student("Kien", "M3212");
             var ronaldo = new Student("Ronaldo", "R3202");
-            var leo = new Student("Leo", "K3232");
-            var mason = new Student("Mason", "P3212");
 
             var schedule1 = new Schedule();
             var para1 = new Para(1, 2);
@@ -252,18 +262,6 @@ namespace Isu.Tests
             schedule2.AddPara(para2, "tuesday");
             var r3202 = new GroupWrapper("R3202", schedule2);
             r3202.StudentsList.Add(ronaldo);
-
-            var schedule3 = new Schedule();
-            var para3 = new Para(4, 5);
-            schedule3.AddPara(para3, "wednesday");
-            var k3232 = new GroupWrapper("K3232", schedule3);
-            k3232.StudentsList.Add(leo);
-
-            var schedule4 = new Schedule();
-            var para4 = new Para(4, 5);
-            schedule2.AddPara(para4, "thursday");
-            var p3212 = new GroupWrapper("P3212", schedule4);
-            p3212.StudentsList.Add(mason);
 
             //// create ognp1
             var ognp1 = new OGNP("mon1", 'Z');
@@ -294,14 +292,11 @@ namespace Isu.Tests
             var test = new OGNPManagement();
             test.AddNewOGNP(ognp1);
             test.StudentRegistersOGNP(kiet, m3212, ognp1, potokOGNP1);
-            test.StudentRegistersOGNP(mason, p3212, ognp1, potokOGNP1);
-            test.StudentRegistersOGNP(leo, k3232, ognp1, potokOGNP1);
             test.StudentRegistersOGNP(ronaldo, r3202, ognp1, potokOGNP1);
-
             test.StudentRegistersOGNP(nam, m3212, ognp1, potokOGNP2);
 
             List<Student> listnotOGNP1 = test.GetStudentsDidNotRegister(m3212);
-            test.Show(listnotOGNP1);
+            Assert.AreEqual(listnotOGNP1.Count, 1);
         }
     }
 }
