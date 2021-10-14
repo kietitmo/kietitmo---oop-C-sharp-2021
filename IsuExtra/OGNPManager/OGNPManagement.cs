@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Isu.Classes;
 using Isu.Tools;
 using IsuExtra.Classes;
@@ -88,16 +87,6 @@ namespace IsuExtra.OGNPManager
             }
 
             return studentList;
-        }
-
-        public void Show(List<Student> list)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.Write("Student: " + list[i].Name + "\t\t\t");
-                Console.Write("ID: " + list[i].Id + "\t\t\t");
-                Console.WriteLine("Group: " + list[i].GroupName);
-            }
         }
     }
 }

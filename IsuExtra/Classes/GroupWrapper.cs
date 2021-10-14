@@ -78,10 +78,5 @@ namespace IsuExtra.Classes
                 TempGroup.StudentsList = value;
             }
         }
-
-        public void Show()
-        {
-            TempGroup.Show();
-        }
     }
 }

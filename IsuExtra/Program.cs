@@ -81,17 +81,14 @@ namespace IsuExtra
 
             List<Student> listOGNP1 = test.GetStudentsOfOGNP(ognp1);
             Console.WriteLine(listOGNP1.Count);
-            test.Show(listOGNP1);
 
             List<Student> listnotOGNP1 = test.GetStudentsDidNotRegister(m3212);
             Console.WriteLine(listnotOGNP1.Count);
-            test.Show(listnotOGNP1);
 
             //// delete kiet
             test.DeleteRegistration(kiet, potokOGNP1);
             listOGNP1 = test.GetStudentsOfOGNP(ognp1);
             Console.WriteLine(listOGNP1.Count);
-            test.Show(listOGNP1);
 
             List<Potok> potoksOfOgnp1 = test.GetPotokOfOGNP(ognp1);
             Console.WriteLine(potoksOfOgnp1.Count);
