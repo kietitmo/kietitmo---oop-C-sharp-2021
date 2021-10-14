@@ -30,7 +30,7 @@ namespace Isu.Tests
             scheduleOGNP1.Addpair(pair1OGNP, "tuesday");
             scheduleOGNP1.Addpair(pair2OGNP, "tuesday");
             var potokOGNP1 = new Stream(scheduleOGNP1, lecturer);
-            ognp1.PotokOGNP.Add(potokOGNP1);
+            ognp1.StreamOfOGNP.Add(potokOGNP1);
 
             //// Create second Potok of OGNP
             var scheduleOGNP2 = new Schedule();
@@ -40,7 +40,7 @@ namespace Isu.Tests
             scheduleOGNP2.Addpair(pair1OGNP2, "monday");
             scheduleOGNP2.Addpair(pair2OGNP2, "monday");
             var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.PotokOGNP.Add(potokOGNP2);
+            ognp1.StreamOfOGNP.Add(potokOGNP2);
 
             //// add ognp 1
             ognpTest.AddNewOGNP(ognp1);
@@ -68,7 +68,7 @@ namespace Isu.Tests
             scheduleOGNP1.Addpair(pair1OGNP, "tuesday");
             scheduleOGNP1.Addpair(pair2OGNP, "tuesday");
             var potokOGNP1 = new Stream(scheduleOGNP1, lecturer);
-            ognp1.PotokOGNP.Add(potokOGNP1);
+            ognp1.StreamOfOGNP.Add(potokOGNP1);
 
             //// Students Register OGNP
             ognpTest.AddNewOGNP(ognp1);
@@ -98,7 +98,7 @@ namespace Isu.Tests
             scheduleOGNP1.Addpair(pair1OGNP, "tuesday");
             scheduleOGNP1.Addpair(pair2OGNP, "tuesday");
             var potokOGNP1 = new Stream(scheduleOGNP1, lecturer);
-            ognp1.PotokOGNP.Add(potokOGNP1);
+            ognp1.StreamOfOGNP.Add(potokOGNP1);
 
             //// Students Register OGNP
             ognpTest.AddNewOGNP(ognp1);
@@ -140,7 +140,7 @@ namespace Isu.Tests
             scheduleOGNP1.Addpair(pair1OGNP, "tuesday");
             scheduleOGNP1.Addpair(pair2OGNP, "tuesday");
             var potokOGNP1 = new Stream(scheduleOGNP1, lecturer);
-            ognp1.PotokOGNP.Add(potokOGNP1);
+            ognp1.StreamOfOGNP.Add(potokOGNP1);
 
             //// Create second Potok of OGNP
             var scheduleOGNP2 = new Schedule();
@@ -150,7 +150,7 @@ namespace Isu.Tests
             scheduleOGNP2.Addpair(pair1OGNP2, "monday");
             scheduleOGNP2.Addpair(pair2OGNP2, "monday");
             var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.PotokOGNP.Add(potokOGNP2);
+            ognp1.StreamOfOGNP.Add(potokOGNP2);
 
             //// Students Register OGNP
             ognpTest.AddNewOGNP(ognp1);
@@ -212,7 +212,7 @@ namespace Isu.Tests
 
             //// add potok1
             var potokOGNP1 = new Stream(scheduleOGNP1, lecturer);
-            ognp1.PotokOGNP.Add(potokOGNP1);
+            ognp1.StreamOfOGNP.Add(potokOGNP1);
 
             var scheduleOGNP2 = new Schedule();
 
@@ -224,7 +224,7 @@ namespace Isu.Tests
 
             //// add potok2
             var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.PotokOGNP.Add(potokOGNP2);
+            ognp1.StreamOfOGNP.Add(potokOGNP2);
 
             var test = new OGNPManagement();
             test.AddNewOGNP(ognp1);
