@@ -21,22 +21,22 @@ namespace IsuExtra.OGNPManager
             return tempOGNP;
         }
 
-        public void StudentRegistersOGNP(Student student, GroupWrapper groupOfStudent, OGNP ognp, Potok potok)
+        public void StudentRegistersOGNP(Student student, GroupWrapper groupOfStudent, OGNP ognp, Stream stream)
         {
             if (student.GroupName[0] == ognp.OfFaculty)
             {
                 throw new IsuException("Register OGNP Of Student's Faculty Exception");
             }
 
-            if (groupOfStudent.GroupSchedule.IsIntersectOther(potok.PotokSchedule))
+            if (groupOfStudent.GroupSchedule.IsIntersectOther(stream.ScheduleOfStream))
             {
                 throw new IsuException("Schedules cut each other Exception");
             }
 
-            potok.StudentList.Add(student);
+            stream.StudentList.Add(student);
         }
 
-        public void DeleteRegistration(Student student, Potok potok)
+        public void DeleteRegistration(Student student, Stream potok)
         {
             for (int i = 0; i < potok.StudentList.Count; i++)
             {
@@ -47,17 +47,17 @@ namespace IsuExtra.OGNPManager
             }
         }
 
-        public List<Potok> GetPotokOfOGNP(OGNP ognp)
+        public List<Stream> GetPotokOfOGNP(OGNP ognp)
         {
-            return ognp.PotokOGNP;
+            return ognp.StreamOfOGNP;
         }
 
         public List<Student> GetStudentsOfOGNP(OGNP ognp)
         {
             var studentList = new List<Student>();
-            for (int i = 0; i < ognp.PotokOGNP.Count; i++)
+            for (int i = 0; i < ognp.StreamOfOGNP.Count; i++)
             {
-                studentList.AddRange(ognp.PotokOGNP[i].StudentList);
+                studentList.AddRange(ognp.StreamOfOGNP[i].StudentList);
             }
 
             return studentList;
@@ -71,9 +71,9 @@ namespace IsuExtra.OGNPManager
                 int count = 0;
                 for (int j = 0; j < OgnpList.Count; j++)
                 {
-                    for (int k = 0; k < OgnpList[j].PotokOGNP.Count; k++)
+                    for (int k = 0; k < OgnpList[j].StreamOfOGNP.Count; k++)
                     {
-                        if (OgnpList[j].PotokOGNP[k].StudentList.Contains(group.StudentsList[i]))
+                        if (OgnpList[j].StreamOfOGNP[k].StudentList.Contains(group.StudentsList[i]))
                         {
                             count++;
                         }

@@ -7,13 +7,13 @@ namespace IsuExtra.Classes
     {
         private string _ognpName;
         private char _ofFaculty;
-        private List<Potok> _potokOGNP;
+        private List<Stream> _streamOGNP;
 
         public OGNP(string ognpName, char facultyOfOGNP)
         {
             OgnpName = ognpName;
             OfFaculty = facultyOfOGNP;
-            PotokOGNP = new List<Potok>();
+            StreamOfOGNP = new List<Stream>();
         }
 
         public string OgnpName
@@ -33,7 +33,7 @@ namespace IsuExtra.Classes
             }
         }
 
-        public List<Potok> PotokOGNP { get => _potokOGNP; set => _potokOGNP = value; }
+        public List<Stream> StreamOfOGNP { get => _streamOGNP; set => _streamOGNP = value; }
         public char OfFaculty { get => _ofFaculty; set => _ofFaculty = value; }
     }
 }

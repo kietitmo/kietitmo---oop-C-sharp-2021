@@ -1,10 +1,10 @@
 ﻿namespace IsuExtra.Classes
 {
-    public class Para
+    public class Pair
     {
         private int startTime;
         private int endTime;
-        public Para(int startTime, int endTime)
+        public Pair(int startTime, int endTime)
         {
             StartTime = startTime;
             EndTime = endTime;
