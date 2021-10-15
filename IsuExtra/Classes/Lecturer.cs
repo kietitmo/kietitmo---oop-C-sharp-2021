@@ -7,24 +7,16 @@ namespace IsuExtra.Classes
         private string _name;
         public Lecturer(string lecturerName)
         {
-            Name = lecturerName;
-        }
-
-        public string Name
-        {
-            get
+            if (!string.IsNullOrEmpty(lecturerName))
             {
-                return _name;
+                Name = lecturerName;
             }
-            set
+            else
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new IsuException("Lecturer_Name_Invalid_Exception");
-                }
-
-                _name = value;
+                throw new IsuException("Lecturer_Name_Invalid_Exception");
             }
         }
+
+        public string Name { get => _name; set => _name = value; }
     }
 }

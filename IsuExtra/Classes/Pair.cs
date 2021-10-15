@@ -2,15 +2,15 @@
 {
     public class Pair
     {
-        private int startTime;
-        private int endTime;
+        private int _startTime;
+        private int _endTime;
         public Pair(int startTime, int endTime)
         {
             StartTime = startTime;
             EndTime = endTime;
         }
 
-        public int StartTime { get => startTime; set => startTime = value; }
-        public int EndTime { get => endTime; set => endTime = value; }
+        public int StartTime { get => _startTime; set => _startTime = value; }
+        public int EndTime { get => _endTime; set => _endTime = value; }
     }
 }

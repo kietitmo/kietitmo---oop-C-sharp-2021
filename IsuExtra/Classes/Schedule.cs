@@ -3,7 +3,7 @@ using Isu.Tools;
 
 namespace IsuExtra.Classes
 {
-    public class Schedule
+    public class Schedule //// this class is schedule for group and learning stream of ognp
     {
         //// Every day of week hava a list of pair
         private List<Pair> pairOfMonday;
@@ -23,6 +23,17 @@ namespace IsuExtra.Classes
             PairOfSaturday = new List<Pair>();
         }
 
+        private enum DayOfWeek
+        {
+            Sunday,
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday,
+        }
+
         public List<Pair> PairOfMonday { get => pairOfMonday; set => pairOfMonday = value; }
         public List<Pair> PairOfTuesday { get => pairOfTuesday; set => pairOfTuesday = value; }
         public List<Pair> PairOfWednesday { get => pairOfWednesday; set => pairOfWednesday = value; }
@@ -31,75 +42,64 @@ namespace IsuExtra.Classes
         public List<Pair> PairOfSaturday { get => pairOfSaturday; set => pairOfSaturday = value; }
 
         //// Add pair into a day of week
-        public Pair Addpair(Pair pair, string day)
+
+        public Pair Addpair(Pair pair, string dayOfWeek)
         {
-            switch (day)
+            switch (dayOfWeek)
             {
-                case "monday":
+                case nameof(DayOfWeek.Monday):
                     if (!IsThispairInvalid(pair, PairOfMonday))
                     {
                         PairOfMonday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Monday) Another pair Exists Exception");
-                    }
 
-                case "tuesday":
+                    throw new IsuException("(Monday) Another pair Exists Exception");
+
+                case nameof(DayOfWeek.Tuesday):
                     if (!IsThispairInvalid(pair, PairOfTuesday))
                     {
                         PairOfTuesday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Tuesday) Another pair Exists Exception");
-                    }
 
-                case "wednesday":
+                    throw new IsuException("(Tuesday) Another pair Exists Exception");
+
+                case nameof(DayOfWeek.Wednesday):
                     if (!IsThispairInvalid(pair, PairOfWednesday))
                     {
                         PairOfWednesday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Wednesday) Another pair Exists Exception");
-                    }
 
-                case "thursday":
+                    throw new IsuException("(Wednesday) Another pair Exists Exception");
+
+                case nameof(DayOfWeek.Thursday):
                     if (!IsThispairInvalid(pair, PairOfThursday))
                     {
                         PairOfThursday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Thursday) Another pair Exists Exception");
-                    }
 
-                case "friday":
+                    throw new IsuException("(Thursday) Another pair Exists Exception");
+
+                case nameof(DayOfWeek.Friday):
                     if (!IsThispairInvalid(pair, PairOfFriday))
                     {
                         PairOfFriday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Friday) Another pair Exists Exception");
-                    }
 
-                case "saturday":
+                    throw new IsuException("(Friday) Another pair Exists Exception");
+
+                case nameof(DayOfWeek.Saturday):
                     if (!IsThispairInvalid(pair, PairOfSaturday))
                     {
                         PairOfSaturday.Add(pair);
                         return pair;
                     }
-                    else
-                    {
-                        throw new IsuException("(Saturday) Another pair Exists Exception");
-                    }
+
+                    throw new IsuException("(Saturday) Another pair Exists Exception");
 
                 default:
                     throw new IsuException("Add pair To Wrong Day Exception");
@@ -107,26 +107,26 @@ namespace IsuExtra.Classes
         }
 
         //// Checking pair is cut other pair in List pair (of one day)
-        public bool IsThispairInvalid(Pair pair, List<Pair> day)
+        public bool IsThispairInvalid(Pair pair, List<Pair> pairsOfday)
         {
-            for (int i = 0; i < day.Count; i++)
+            foreach (Pair tempPair in pairsOfday)
             {
-                if (pair.StartTime <= day[i].StartTime && pair.EndTime >= day[i].EndTime)
+                if (pair.StartTime <= tempPair.StartTime && pair.EndTime >= tempPair.EndTime)
                 {
                     return true;
                 }
 
-                if (pair.StartTime >= day[i].StartTime && pair.EndTime <= day[i].EndTime)
+                if (pair.StartTime >= tempPair.StartTime && pair.EndTime <= tempPair.EndTime)
                 {
                     return true;
                 }
 
-                if (pair.StartTime < day[i].StartTime && pair.EndTime > day[i].StartTime)
+                if (pair.StartTime < tempPair.StartTime && pair.EndTime > tempPair.StartTime)
                 {
                     return true;
                 }
 
-                if (pair.StartTime > day[i].EndTime && pair.EndTime < day[i].EndTime)
+                if (pair.StartTime > tempPair.EndTime && pair.EndTime < tempPair.EndTime)
                 {
                     return true;
                 }
@@ -135,52 +135,52 @@ namespace IsuExtra.Classes
             return false;
         }
 
-        //// Check 2 Schedule are intersect each other
+        //// Check 2 Schedule are intersect each other (to check schedule of group INTERSECT schedule of learning stream?)
         public bool IsIntersectOther(Schedule other)
         {
-            for (int i = 0; i < PairOfMonday.Count; i++)
+            foreach (Pair tempPair in PairOfMonday)
             {
-                if (IsThispairInvalid(PairOfMonday[i], other.PairOfMonday))
+                if (IsThispairInvalid(tempPair, other.PairOfMonday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < PairOfTuesday.Count; i++)
+            foreach (Pair tempPair in PairOfTuesday)
             {
-                if (IsThispairInvalid(PairOfTuesday[i], other.PairOfTuesday))
+                if (IsThispairInvalid(tempPair, other.PairOfTuesday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < PairOfWednesday.Count; i++)
+            foreach (Pair tempPair in PairOfWednesday)
             {
-                if (IsThispairInvalid(PairOfWednesday[i], other.PairOfWednesday))
+                if (IsThispairInvalid(tempPair, other.PairOfWednesday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < PairOfThursday.Count; i++)
+            foreach (Pair tempPair in PairOfThursday)
             {
-                if (IsThispairInvalid(PairOfThursday[i], other.PairOfThursday))
+                if (IsThispairInvalid(tempPair, other.PairOfThursday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < PairOfFriday.Count; i++)
+            foreach (Pair tempPair in PairOfFriday)
             {
-                if (IsThispairInvalid(PairOfFriday[i], other.PairOfFriday))
+                if (IsThispairInvalid(tempPair, other.PairOfFriday))
                 {
                     return true;
                 }
             }
 
-            for (int i = 0; i < PairOfSaturday.Count; i++)
+            foreach (Pair tempPair in PairOfSaturday)
             {
-                if (IsThispairInvalid(PairOfSaturday[i], other.PairOfSaturday))
+                if (IsThispairInvalid(tempPair, other.PairOfSaturday))
                 {
                     return true;
                 }

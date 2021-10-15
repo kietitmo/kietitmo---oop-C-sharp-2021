@@ -3,37 +3,29 @@ using Isu.Tools;
 
 namespace IsuExtra.Classes
 {
-    public class OGNP
+    public class Ognp
     {
         private string _ognpName;
-        private char _ofFaculty;
-        private List<Stream> _streamOGNP;
+        private Faculty _ofFaculty;
+        private List<Stream> _streamsOgnp;
 
-        public OGNP(string ognpName, char facultyOfOGNP)
+        public Ognp(string ognpName, char facultyOfOgnp)
         {
-            OgnpName = ognpName;
-            OfFaculty = facultyOfOGNP;
-            StreamOfOGNP = new List<Stream>();
+            if (!string.IsNullOrEmpty(ognpName))
+            {
+                OgnpName = ognpName;
+            }
+            else
+            {
+                throw new IsuException("OGNP Name Invalid Exception");
+            }
+
+            OfFaculty = new Faculty(facultyOfOgnp);
+            StreamsOfOgnp = new List<Stream>();
         }
 
-        public string OgnpName
-        {
-            get
-            {
-                return _ognpName;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new IsuException("OGNP Name Invalid Exception");
-                }
-
-                _ognpName = value;
-            }
-        }
-
-        public List<Stream> StreamOfOGNP { get => _streamOGNP; set => _streamOGNP = value; }
-        public char OfFaculty { get => _ofFaculty; set => _ofFaculty = value; }
+        public List<Stream> StreamsOfOgnp { get => _streamsOgnp; set => _streamsOgnp = value; }
+        public Faculty OfFaculty { get => _ofFaculty; set => _ofFaculty = value; }
+        public string OgnpName { get => _ognpName; set => _ognpName = value; }
     }
 }

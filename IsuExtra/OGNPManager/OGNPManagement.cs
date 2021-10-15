@@ -5,25 +5,25 @@ using IsuExtra.Classes;
 
 namespace IsuExtra.OGNPManager
 {
-    public class OGNPManagement
+    public class OgnpManagement
     {
-        private List<OGNP> _ognpList;
-        public OGNPManagement()
+        private List<Ognp> _ognpList;
+        public OgnpManagement()
         {
-            OgnpList = new List<OGNP>();
+            OgnpList = new List<Ognp>();
         }
 
-        public List<OGNP> OgnpList { get => _ognpList; set => _ognpList = value; }
+        public List<Ognp> OgnpList { get => _ognpList; set => _ognpList = value; }
 
-        public OGNP AddNewOGNP(OGNP tempOGNP)
+        public Ognp AddNewOgnp(Ognp tempOgnp)
         {
-            OgnpList.Add(tempOGNP);
-            return tempOGNP;
+            OgnpList.Add(tempOgnp);
+            return tempOgnp;
         }
 
-        public void StudentRegistersOGNP(Student student, GroupWrapper groupOfStudent, OGNP ognp, Stream stream)
+        public void StudentRegistersOgnp(Student student, GroupWrapper groupOfStudent, Ognp ognp, Stream stream)
         {
-            if (student.GroupName[0] == ognp.OfFaculty)
+            if (groupOfStudent.FacultyOfGroup.LetterOfFaculty == ognp.OfFaculty.LetterOfFaculty)
             {
                 throw new IsuException("Register OGNP Of Student's Faculty Exception");
             }
@@ -36,28 +36,29 @@ namespace IsuExtra.OGNPManager
             stream.StudentList.Add(student);
         }
 
-        public void DeleteRegistration(Student student, Stream potok)
+        public void DeleteRegistration(Student student, Stream streamOfStudent)
         {
-            for (int i = 0; i < potok.StudentList.Count; i++)
+            int index = streamOfStudent.StudentList.IndexOf(student);
+            if (index == -1)
             {
-                if (potok.StudentList[i].Id == student.Id)
-                {
-                    potok.StudentList.RemoveAt(i);
-                }
+                throw new IsuException("student did not registered OGNP Exception");
             }
+
+            streamOfStudent.StudentList.RemoveAt(index);
+            return;
         }
 
-        public List<Stream> GetPotokOfOGNP(OGNP ognp)
+        public List<Stream> GetStreamOfOgnp(Ognp ognp)
         {
-            return ognp.StreamOfOGNP;
+            return ognp.StreamsOfOgnp;
         }
 
-        public List<Student> GetStudentsOfOGNP(OGNP ognp)
+        public List<Student> GetStudentsOfOgnp(Ognp ognp)
         {
             var studentList = new List<Student>();
-            for (int i = 0; i < ognp.StreamOfOGNP.Count; i++)
+            foreach (Stream tempStream in ognp.StreamsOfOgnp)
             {
-                studentList.AddRange(ognp.StreamOfOGNP[i].StudentList);
+                studentList.AddRange(tempStream.StudentList);
             }
 
             return studentList;
@@ -66,14 +67,14 @@ namespace IsuExtra.OGNPManager
         public List<Student> GetStudentsDidNotRegister(GroupWrapper group)
         {
             var studentList = new List<Student>();
-            for (int i = 0; i < group.StudentsList.Count; i++)
+            foreach (Student tempStudent in group.StudentsList)
             {
                 int count = 0;
-                for (int j = 0; j < OgnpList.Count; j++)
+                foreach (Ognp tempOgnp in OgnpList)
                 {
-                    for (int k = 0; k < OgnpList[j].StreamOfOGNP.Count; k++)
+                    foreach (Stream tempStream in tempOgnp.StreamsOfOgnp)
                     {
-                        if (OgnpList[j].StreamOfOGNP[k].StudentList.Contains(group.StudentsList[i]))
+                        if (tempStream.StudentList.Contains(tempStudent))
                         {
                             count++;
                         }
@@ -82,7 +83,7 @@ namespace IsuExtra.OGNPManager
 
                 if (count == 0)
                 {
-                    studentList.Add(group.StudentsList[i]);
+                    studentList.Add(tempStudent);
                 }
             }
 
