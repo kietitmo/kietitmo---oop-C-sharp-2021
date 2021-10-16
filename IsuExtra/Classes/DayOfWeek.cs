@@ -1,8 +1,8 @@
-﻿/// <summary>
-/// Days Of Week.
-/// </summary>
-namespace IsuExtra.Classes
+﻿namespace IsuExtra.Classes
 {
+    /// <summary>
+    /// Days Of Week.
+    /// </summary>
     public enum DayOfWeek
     {
         /// <summary>
