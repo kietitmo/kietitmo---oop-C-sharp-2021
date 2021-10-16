@@ -23,17 +23,6 @@ namespace IsuExtra.Classes
             PairOfSaturday = new List<Pair>();
         }
 
-        private enum DayOfWeek
-        {
-            Sunday,
-            Monday,
-            Tuesday,
-            Wednesday,
-            Thursday,
-            Friday,
-            Saturday,
-        }
-
         public List<Pair> PairOfMonday { get => pairOfMonday; set => pairOfMonday = value; }
         public List<Pair> PairOfTuesday { get => pairOfTuesday; set => pairOfTuesday = value; }
         public List<Pair> PairOfWednesday { get => pairOfWednesday; set => pairOfWednesday = value; }
@@ -43,11 +32,11 @@ namespace IsuExtra.Classes
 
         //// Add pair into a day of week
 
-        public Pair Addpair(Pair pair, string dayOfWeek)
+        public Pair Addpair(Pair pair, DayOfWeek dayOfWeek)
         {
             switch (dayOfWeek)
             {
-                case nameof(DayOfWeek.Monday):
+                case DayOfWeek.Monday:
                     if (!IsThispairInvalid(pair, PairOfMonday))
                     {
                         PairOfMonday.Add(pair);
@@ -56,7 +45,7 @@ namespace IsuExtra.Classes
 
                     throw new IsuException("(Monday) Another pair Exists Exception");
 
-                case nameof(DayOfWeek.Tuesday):
+                case DayOfWeek.Tuesday:
                     if (!IsThispairInvalid(pair, PairOfTuesday))
                     {
                         PairOfTuesday.Add(pair);
@@ -65,7 +54,7 @@ namespace IsuExtra.Classes
 
                     throw new IsuException("(Tuesday) Another pair Exists Exception");
 
-                case nameof(DayOfWeek.Wednesday):
+                case DayOfWeek.Wednesday:
                     if (!IsThispairInvalid(pair, PairOfWednesday))
                     {
                         PairOfWednesday.Add(pair);
@@ -74,7 +63,7 @@ namespace IsuExtra.Classes
 
                     throw new IsuException("(Wednesday) Another pair Exists Exception");
 
-                case nameof(DayOfWeek.Thursday):
+                case DayOfWeek.Thursday:
                     if (!IsThispairInvalid(pair, PairOfThursday))
                     {
                         PairOfThursday.Add(pair);
@@ -83,7 +72,7 @@ namespace IsuExtra.Classes
 
                     throw new IsuException("(Thursday) Another pair Exists Exception");
 
-                case nameof(DayOfWeek.Friday):
+                case DayOfWeek.Friday:
                     if (!IsThispairInvalid(pair, PairOfFriday))
                     {
                         PairOfFriday.Add(pair);
@@ -92,7 +81,7 @@ namespace IsuExtra.Classes
 
                     throw new IsuException("(Friday) Another pair Exists Exception");
 
-                case nameof(DayOfWeek.Saturday):
+                case DayOfWeek.Saturday:
                     if (!IsThispairInvalid(pair, PairOfSaturday))
                     {
                         PairOfSaturday.Add(pair);

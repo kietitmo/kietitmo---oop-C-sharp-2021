@@ -11,15 +11,12 @@ namespace IsuExtra.Classes
 
         public Ognp(string ognpName, char facultyOfOgnp)
         {
-            if (!string.IsNullOrEmpty(ognpName))
-            {
-                OgnpName = ognpName;
-            }
-            else
+            if (string.IsNullOrEmpty(ognpName))
             {
                 throw new IsuException("OGNP Name Invalid Exception");
             }
 
+            OgnpName = ognpName;
             OfFaculty = new Faculty(facultyOfOgnp);
             StreamsOfOgnp = new List<Stream>();
         }

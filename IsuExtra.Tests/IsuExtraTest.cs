@@ -25,8 +25,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
             ognp1.StreamsOfOgnp.Add(streamOfOgnp1);
 
@@ -35,10 +35,10 @@ namespace Isu.Tests
             var lecturer2 = new Lecturer("Alina");
             var pair1OGNP2 = new Pair(4, 5);
             var pair2OGNP2 = new Pair(6, 7);
-            scheduleOGNP2.Addpair(pair1OGNP2, "Monday");
-            scheduleOGNP2.Addpair(pair2OGNP2, "Monday");
-            var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.StreamsOfOgnp.Add(potokOGNP2);
+            scheduleOGNP2.Addpair(pair1OGNP2, DayOfWeek.Monday);
+            scheduleOGNP2.Addpair(pair2OGNP2, DayOfWeek.Monday);
+            var streamOfOgnp2 = new Stream(scheduleOGNP1, lecturer2);
+            ognp1.StreamsOfOgnp.Add(streamOfOgnp2);
 
             //// add ognp 1
             ognpTest.AddNewOgnp(ognp1);
@@ -52,7 +52,7 @@ namespace Isu.Tests
 
             var schedule1 = new Schedule();
             var pair1 = new Pair(1, 2);
-            schedule1.Addpair(pair1, "Monday");
+            schedule1.Addpair(pair1, DayOfWeek.Monday);
             var m3212 = new GroupWrapper("M3212", schedule1);
             m3212.StudentsList.Add(kiet);
 
@@ -63,8 +63,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
             ognp1.StreamsOfOgnp.Add(streamOfOgnp1);
 
@@ -82,7 +82,7 @@ namespace Isu.Tests
 
             var schedule1 = new Schedule();
             var pair1 = new Pair(1, 2);
-            schedule1.Addpair(pair1, "Monday");
+            schedule1.Addpair(pair1, DayOfWeek.Monday);
             var m3212 = new GroupWrapper("M3212", schedule1);
             m3212.StudentsList.Add(kiet);
 
@@ -93,8 +93,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
             ognp1.StreamsOfOgnp.Add(streamOfOgnp1);
 
@@ -109,7 +109,7 @@ namespace Isu.Tests
         }
 
         [Test]
-        public void GetPotoksFromOgnp()
+        public void GetStreamsFromOgnp()
         {
             var kiet = new Student("Kiet", "M3212");
             var nam = new Student("Nam", "M3212");
@@ -117,14 +117,14 @@ namespace Isu.Tests
 
             var schedule1 = new Schedule();
             var pair1 = new Pair(1, 2);
-            schedule1.Addpair(pair1, "Monday");
+            schedule1.Addpair(pair1, DayOfWeek.Monday);
             var m3212 = new GroupWrapper("M3212", schedule1);
             m3212.StudentsList.Add(kiet);
             m3212.StudentsList.Add(nam);
 
             var schedule2 = new Schedule();
             var pair2 = new Pair(1, 2);
-            schedule2.Addpair(pair2, "Tuesday");
+            schedule2.Addpair(pair2, DayOfWeek.Tuesday);
             var r3202 = new GroupWrapper("R3202", schedule2);
             r3202.StudentsList.Add(ronaldo);
 
@@ -135,8 +135,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
             ognp1.StreamsOfOgnp.Add(streamOfOgnp1);
 
@@ -145,20 +145,20 @@ namespace Isu.Tests
             var lecturer2 = new Lecturer("Alina");
             var pair1OGNP2 = new Pair(4, 5);
             var pair2OGNP2 = new Pair(6, 7);
-            scheduleOGNP2.Addpair(pair1OGNP2, "Monday");
-            scheduleOGNP2.Addpair(pair2OGNP2, "Monday");
-            var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.StreamsOfOgnp.Add(potokOGNP2);
+            scheduleOGNP2.Addpair(pair1OGNP2, DayOfWeek.Monday);
+            scheduleOGNP2.Addpair(pair2OGNP2, DayOfWeek.Monday);
+            var streamOfOgnp2 = new Stream(scheduleOGNP1, lecturer2);
+            ognp1.StreamsOfOgnp.Add(streamOfOgnp2);
 
             //// Students Register OGNP
             ognpTest.AddNewOgnp(ognp1);
             ognpTest.StudentRegistersOgnp(kiet, m3212, ognp1, streamOfOgnp1);
             ognpTest.StudentRegistersOgnp(ronaldo, r3202, ognp1, streamOfOgnp1);
-            ognpTest.StudentRegistersOgnp(nam, m3212, ognp1, potokOGNP2);
+            ognpTest.StudentRegistersOgnp(nam, m3212, ognp1, streamOfOgnp2);
 
             //// get Potoks
-            List<Stream> potoksOfOgnp1 = ognp1.StreamsOfOgnp;
-            Assert.AreEqual(2, potoksOfOgnp1.Count);
+            List<Stream> streamsOfOgnp1 = ognp1.StreamsOfOgnp;
+            Assert.AreEqual(2, streamsOfOgnp1.Count);
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace Isu.Tests
 
             var schedule1 = new Schedule();
             var pair1 = new Pair(1, 2);
-            schedule1.Addpair(pair1, "Monday");
+            schedule1.Addpair(pair1, DayOfWeek.Monday);
             var m3212 = new GroupWrapper("M3212", schedule1);
             m3212.StudentsList.Add(kiet);
             m3212.StudentsList.Add(nam);
@@ -182,19 +182,19 @@ namespace Isu.Tests
 
             var schedule2 = new Schedule();
             var pair2 = new Pair(1, 2);
-            schedule2.Addpair(pair2, "Tuesday");
+            schedule2.Addpair(pair2, DayOfWeek.Tuesday);
             var r3202 = new GroupWrapper("R3202", schedule2);
             r3202.StudentsList.Add(ronaldo);
 
             var schedule3 = new Schedule();
             var pair3 = new Pair(4, 5);
-            schedule3.Addpair(pair3, "Wednesday");
+            schedule3.Addpair(pair3, DayOfWeek.Wednesday);
             var k3232 = new GroupWrapper("K3232", schedule3);
             k3232.StudentsList.Add(leo);
 
             var schedule4 = new Schedule();
             var pair4 = new Pair(4, 5);
-            schedule2.Addpair(pair4, "Thursday");
+            schedule2.Addpair(pair4, DayOfWeek.Thursday);
             var p3212 = new GroupWrapper("P3212", schedule4);
             p3212.StudentsList.Add(mason);
 
@@ -205,8 +205,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
 
             //// add potok1
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
@@ -217,12 +217,12 @@ namespace Isu.Tests
             var lecturer2 = new Lecturer("Alina");
             var pair1OGNP2 = new Pair(4, 5);
             var pair2OGNP2 = new Pair(6, 7);
-            scheduleOGNP2.Addpair(pair1OGNP2, "Monday");
-            scheduleOGNP2.Addpair(pair2OGNP2, "Monday");
+            scheduleOGNP2.Addpair(pair1OGNP2, DayOfWeek.Monday);
+            scheduleOGNP2.Addpair(pair2OGNP2, DayOfWeek.Monday);
 
             //// add potok2
-            var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.StreamsOfOgnp.Add(potokOGNP2);
+            var streamOfOgnp2 = new Stream(scheduleOGNP1, lecturer2);
+            ognp1.StreamsOfOgnp.Add(streamOfOgnp2);
 
             var test = new OgnpManagement();
             test.AddNewOgnp(ognp1);
@@ -232,7 +232,7 @@ namespace Isu.Tests
             test.StudentRegistersOgnp(mason, p3212, ognp1, streamOfOgnp1);
             test.StudentRegistersOgnp(leo, k3232, ognp1, streamOfOgnp1);
             test.StudentRegistersOgnp(ronaldo, r3202, ognp1, streamOfOgnp1);
-            test.StudentRegistersOgnp(nam, m3212, ognp1, potokOGNP2);
+            test.StudentRegistersOgnp(nam, m3212, ognp1, streamOfOgnp2);
 
             List<Student> listOGNP1 = test.GetStudentsOfOgnp(ognp1);
             Assert.AreEqual(listOGNP1.Count, 5);
@@ -249,7 +249,7 @@ namespace Isu.Tests
 
             var schedule1 = new Schedule();
             var pair1 = new Pair(1, 2);
-            schedule1.Addpair(pair1, "Monday");
+            schedule1.Addpair(pair1, DayOfWeek.Monday);
             var m3212 = new GroupWrapper("M3212", schedule1);
             m3212.StudentsList.Add(kiet);
             m3212.StudentsList.Add(nam);
@@ -257,7 +257,7 @@ namespace Isu.Tests
 
             var schedule2 = new Schedule();
             var pair2 = new Pair(1, 2);
-            schedule2.Addpair(pair2, "Tuesday");
+            schedule2.Addpair(pair2, DayOfWeek.Tuesday);
             var r3202 = new GroupWrapper("R3202", schedule2);
             r3202.StudentsList.Add(ronaldo);
 
@@ -268,8 +268,8 @@ namespace Isu.Tests
             var lecturer = new Lecturer("Povyshev");
             var pair1OGNP = new Pair(4, 5);
             var pair2OGNP = new Pair(6, 7);
-            scheduleOGNP1.Addpair(pair1OGNP, "Tuesday");
-            scheduleOGNP1.Addpair(pair2OGNP, "Tuesday");
+            scheduleOGNP1.Addpair(pair1OGNP, DayOfWeek.Tuesday);
+            scheduleOGNP1.Addpair(pair2OGNP, DayOfWeek.Tuesday);
 
             //// add potok1
             var streamOfOgnp1 = new Stream(scheduleOGNP1, lecturer);
@@ -280,18 +280,18 @@ namespace Isu.Tests
             var lecturer2 = new Lecturer("Alina");
             var pair1OGNP2 = new Pair(4, 5);
             var pair2OGNP2 = new Pair(6, 7);
-            scheduleOGNP2.Addpair(pair1OGNP2, "Monday");
-            scheduleOGNP2.Addpair(pair2OGNP2, "Monday");
+            scheduleOGNP2.Addpair(pair1OGNP2, DayOfWeek.Monday);
+            scheduleOGNP2.Addpair(pair2OGNP2, DayOfWeek.Monday);
 
             //// add potok2
-            var potokOGNP2 = new Stream(scheduleOGNP1, lecturer2);
-            ognp1.StreamsOfOgnp.Add(potokOGNP2);
+            var streamOfOgnp2 = new Stream(scheduleOGNP1, lecturer2);
+            ognp1.StreamsOfOgnp.Add(streamOfOgnp2);
 
             var test = new OgnpManagement();
             test.AddNewOgnp(ognp1);
             test.StudentRegistersOgnp(kiet, m3212, ognp1, streamOfOgnp1);
             test.StudentRegistersOgnp(ronaldo, r3202, ognp1, streamOfOgnp1);
-            test.StudentRegistersOgnp(nam, m3212, ognp1, potokOGNP2);
+            test.StudentRegistersOgnp(nam, m3212, ognp1, streamOfOgnp2);
 
             List<Student> listnotOGNP1 = test.GetStudentsDidNotRegister(m3212);
             Assert.AreEqual(listnotOGNP1.Count, 1);

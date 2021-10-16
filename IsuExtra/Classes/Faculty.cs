@@ -8,14 +8,12 @@ namespace IsuExtra.Classes
 
         public Faculty(char letter)
         {
-            if (char.IsLetter(letter))
-            {
-                LetterOfFaculty = letter;
-            }
-            else
+            if (!char.IsLetter(letter))
             {
                 throw new IsuException("Letter Of Faculty Invalid");
             }
+
+            LetterOfFaculty = letter;
         }
 
         public char LetterOfFaculty { get => _letterOfFaculty; set => _letterOfFaculty = value; }
