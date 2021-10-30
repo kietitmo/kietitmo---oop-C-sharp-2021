@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Backups.Classes
 {
@@ -9,12 +10,14 @@ namespace Backups.Classes
         private double _size;
         private string _path;
 
-        public FileOfJob(string name, double size, string path, DateTime dateCreated)
+        public FileOfJob(string name)
         {
-            Path = path;
-            Name = name;
-            DateModified = dateCreated;
-            Size = size;
+            var file = new FileInfo(name);
+
+            Path = file.FullName;
+            Name = file.Name;
+            DateModified = file.CreationTime;
+            Size = file.Length;
         }
 
         public FileOfJob(FileOfJob other)

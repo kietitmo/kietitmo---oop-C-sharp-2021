@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using Backups.Actions;
 using Backups.Classes;
-using Backups.Enumeration;
+using Backups.InterfaceLab.Actions;
 using Backups.Service;
 
 namespace Backups
@@ -10,17 +11,18 @@ namespace Backups
     {
         private static void Main()
         {
-            var file1 = new FileInfo("1.txt");
-            var file2 = new FileInfo("2.txt");
-            var file3 = new FileInfo("3.txt");
+            var file1 = new FileOfJob("1.txt");
+            var file2 = new FileOfJob("2.txt");
 
-            var f1 = new FileOfJob(file1.Name, file1.Length, file1.DirectoryName, file1.CreationTime);
-            var f2 = new FileOfJob(file2.Name, file2.Length, file2.DirectoryName, file2.CreationTime);
-            var f3 = new FileOfJob(file3.Name, file3.Length, file3.DirectoryName, file3.CreationTime);
+            var fileList = new List<FileOfJob>() { file1, file2 };
 
-            var fileList = new List<FileOfJob>() { f1, f2, f3 };
-            var backupJob = new BackupJobLocal("backupJob", fileList, StorageType.SingleStorage);
+            IStorageTypeAlgorithm storageTypeAlgorithm = new SplitStorageSaving();
+            var backupJob = new BackupJob("backupJob", fileList, storageTypeAlgorithm);
+
             backupJob.RunBackupJob();
+            fileList.Remove(file2);
+            backupJob.RunBackupJob();
+            Console.WriteLine(backupJob.FileInSystem.Directories.Count);
         }
     }
 }
