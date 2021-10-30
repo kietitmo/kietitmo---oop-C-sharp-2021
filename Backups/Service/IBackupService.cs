@@ -3,6 +3,6 @@
     public interface IBackupService
     {
         public void RunBackupJob();
-        ////public void DeleteRestorePoint();
+        public void DeleteRestorePoint(string number);
     }
 }

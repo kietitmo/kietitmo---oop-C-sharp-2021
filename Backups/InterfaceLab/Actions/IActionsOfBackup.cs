@@ -12,7 +12,7 @@ namespace Backups.InterfaceLab.Actions
 
         public void CreateDirectory();
 
-        public void CreatePoint();
-        public void DeletePoint();
+        public void CreateRestorePoint();
+        public void DeleteRestorePoint(string number);
     }
 }

@@ -10,19 +10,19 @@ namespace Backups.Actions
 {
     public class ActionsOnLocalSystem : IActionsOfBackup
     {
+        private static int pointCount = 0;
         private DirectoryInfo _lastPointDirectory;
         public ActionsOnLocalSystem(BackupJobLocal job)
         {
             Job = job;
         }
 
-        public ulong PointCount { get; private set; } = 0;
         public BackupJobLocal Job { get; }
 
         public RestorePoint Run()
         {
             CreateDirectory();
-            CreatePoint();
+            CreateRestorePoint();
 
             switch (Job.Type)
             {
@@ -41,7 +41,7 @@ namespace Backups.Actions
 
         public void SingleStorage()
         {
-            using (var zipToOpen = new FileStream(Path.Combine(_lastPointDirectory.FullName, $@"Restore Point_{PointCount}.zip"), FileMode.CreateNew))
+            using (var zipToOpen = new FileStream(_lastPointDirectory.FullName + "RestorePoint" + pointCount + ".zip", FileMode.CreateNew))
             {
                 using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
@@ -49,11 +49,11 @@ namespace Backups.Actions
                     {
                         var file = new FileInfo(f.Name);
 
-                        FileInfo copy = file.CopyTo(Path.Combine(_lastPointDirectory.FullName, file.Name));
+                        FileInfo copyOfFile = file.CopyTo(Path.Combine(_lastPointDirectory.FullName, file.Name));
 
-                        archive.CreateEntryFromFile(copy.FullName, copy.Name);
+                        archive.CreateEntryFromFile(copyOfFile.FullName, copyOfFile.Name);
 
-                        copy.Delete();
+                        copyOfFile.Delete();
                     }
                 }
             }
@@ -65,17 +65,17 @@ namespace Backups.Actions
             {
                 var file = new FileInfo(f.Name);
 
-                FileInfo copy = file.CopyTo(Path.Combine(_lastPointDirectory.FullName, file.Name));
+                FileInfo copyOfFile = file.CopyTo(_lastPointDirectory.FullName + @"\" + file.Name);
 
-                using (var zipToOpen = new FileStream(Path.Combine(_lastPointDirectory.FullName, $@"{file.Name}_{PointCount}.zip"), FileMode.CreateNew))
+                using (var zipToOpen = new FileStream(_lastPointDirectory.FullName + @"\" + file.Name + "_" + pointCount + ".zip", FileMode.CreateNew))
                 {
                     using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                     {
-                        archive.CreateEntryFromFile(copy.FullName, copy.Name);
+                        archive.CreateEntryFromFile(copyOfFile.FullName, copyOfFile.Name);
                     }
                 }
 
-                copy.Delete();
+                copyOfFile.Delete();
             }
         }
 
@@ -83,28 +83,28 @@ namespace Backups.Actions
         {
             if (Directory.Exists(Job.Name))
             {
-                Directory.Delete(Job.Name, true);
+                return;
             }
 
             Directory.CreateDirectory(Job.Name);
         }
 
-        public void CreatePoint()
+        public void CreateRestorePoint()
         {
             if (!Directory.Exists(Job.Name))
                 throw new Exception("Job doesnt exist");
 
-            PointCount++;
+            pointCount++;
 
-            if (Directory.Exists($@"Restore Point {PointCount}"))
+            if (Directory.Exists($@"RestorePoint" + pointCount))
             {
-                Directory.Delete($@"Restore Point {PointCount}", true);
+                Directory.Delete($@"RestorePoint" + pointCount);
             }
 
-            _lastPointDirectory = Directory.CreateDirectory(Path.Combine(Job.Name, $@"Restore Point {PointCount}"));
+            _lastPointDirectory = Directory.CreateDirectory(Job.Name + @"\" + "RestorePoint" + pointCount);
         }
 
-        public void DeletePoint()
+        public void DeleteRestorePoint(string number)
         {
         }
     }

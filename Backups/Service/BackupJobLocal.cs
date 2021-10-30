@@ -15,32 +15,23 @@ namespace Backups.Service
             Type = type;
         }
 
+        public ActionsOnLocalSystem ActionOnLocalSystem { get; set; }
         public StorageType Type { get; set; }
         public string Name { get; set; }
         public List<FileOfJob> JobObjectsList { get; set; }
 
         public void RunBackupJob()
         {
-            var actionOnLocalSystem = new ActionsOnLocalSystem(new BackupJobLocal(Name, JobObjectsList, Type));
-            actionOnLocalSystem.CreateDirectory();
-            actionOnLocalSystem.Run();
-            ////CreateDirectory.CreateADirectory(Name);
-            ////LastPointDirectory = CreateRestorePoint.CreateNewRestorePoint(Name, countPoint, LastPointDirectory);
-            ////if (Type == StorageType.SingleStorage)
-            ////{
-            ////    var saving = new SingleStorageCreation();
-            ////    saving.CreateCopy(JobObjectsList, countPoint, LastPointDirectory);
-            ////    countPoint = countPoint + 1;
-            ////    return;
-            ////}
+            ActionOnLocalSystem = new ActionsOnLocalSystem(new BackupJobLocal(Name, JobObjectsList, Type));
+            ActionOnLocalSystem.CreateDirectory();
+            ActionOnLocalSystem.Run();
+            return;
+        }
 
-            ////if (Type == StorageType.SplitStorage)
-            ////{
-            ////    var saving = new SplitStorageCreation();
-            ////    saving.CreateCopy(JobObjectsList, countPoint, LastPointDirectory);
-            ////    countPoint = countPoint + 1;
-            ////    return;
-            ////}
+        public void DeleteRestorePoint(string number)
+        {
+            ActionOnLocalSystem.DeleteRestorePoint(number);
+            return;
         }
     }
 }
