@@ -7,7 +7,7 @@ namespace Backups.InterfaceLab
     {
         public string Name { get; set; }
         public IDirectory ParentDictionary { get; set; }
-        public List<FileOfJob> Files { get; set; }
-        public List<IDirectory> ChildDirectories { get; set; }
+        public List<FileOfJob> Files { get; }
+        public List<IDirectory> Directories { get; }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using Backups.Actions;
 using Backups.Classes;
-using Backups.Enumeration;
+using Backups.InterfaceLab;
+using Backups.InterfaceLab.Actions;
 using Backups.Service;
 
 namespace Backups
@@ -10,17 +12,63 @@ namespace Backups
     {
         private static void Main()
         {
-            var file1 = new FileInfo("1.txt");
-            var file2 = new FileInfo("2.txt");
-            var file3 = new FileInfo("3.txt");
+            var file1 = new FileOfJob("1.txt", 2);
+            var file2 = new FileOfJob("2.txt", 2);
 
-            var f1 = new FileOfJob(file1.Name, file1.Length, file1.DirectoryName, file1.CreationTime);
-            var f2 = new FileOfJob(file2.Name, file2.Length, file2.DirectoryName, file2.CreationTime);
-            var f3 = new FileOfJob(file3.Name, file3.Length, file3.DirectoryName, file3.CreationTime);
+            var fileList = new List<FileOfJob>() { file1, file2 };
 
-            var fileList = new List<FileOfJob>() { f1, f2, f3 };
-            var backupJob = new BackupJobLocal("backupJob", fileList, StorageType.SingleStorage);
+            IStorageTypeAlgorithm storageTypeAlgorithm = new SplitStorageSaving();
+            IFileSystem fileSystem = new FileSystem();
+            var restorePointList = new List<RestorePoint>();
+            var backupJob = new BackupJob("backupJob", fileList, storageTypeAlgorithm, fileSystem, restorePointList);
+
             backupJob.RunBackupJob();
+            foreach (IDirectory directory in fileSystem.Directories)
+            {
+                foreach (IDirectory directoryChild in directory.Directories)
+                {
+                    Console.WriteLine(directoryChild.Name);
+                    foreach (FileOfJob file in directoryChild.Files)
+                    {
+                        Console.WriteLine(file.Name + " ");
+                    }
+                }
+            }
+
+            Console.WriteLine("==========================================");
+            foreach (RestorePoint rp in restorePointList)
+            {
+                foreach (FileOfJob file in rp.JobObjectsList)
+                {
+                    Console.WriteLine(file.Name);
+                }
+            }
+
+            Console.WriteLine("==========================================");
+            fileList.Remove(file2);
+            backupJob.RunBackupJob();
+
+            Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+            foreach (IDirectory directory in fileSystem.Directories)
+            {
+                foreach (IDirectory directoryChild in directory.Directories)
+                {
+                    foreach (FileOfJob file in directoryChild.Files)
+                    {
+                        Console.WriteLine(file.Name + " ");
+                    }
+                }
+            }
+
+            Console.WriteLine("==========================================");
+            foreach (RestorePoint rp in restorePointList)
+            {
+                foreach (FileOfJob file in rp.JobObjectsList)
+                {
+                    Console.WriteLine(file.Name);
+                }
+            }
         }
     }
 }
