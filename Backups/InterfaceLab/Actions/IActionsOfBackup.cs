@@ -7,6 +7,6 @@ namespace Backups.InterfaceLab.Actions
         public RestorePoint Run();
         public void CreateDirectory();
         public void CreateRestorePoint();
-        public void DeleteRestorePoint(string number);
+        public void DeleteRestorePoint(RestorePoint restorePointNeedToDelete);
     }
 }
