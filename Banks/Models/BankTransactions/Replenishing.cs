@@ -7,14 +7,18 @@ namespace Banks.Models.BankTransactions
     {
         private IAccount _acount;
         private double _sumAdding;
-        public Replenishing(IAccount acount, double sumAdding)
+        public Replenishing(IAccount account, double sumAdding, DateTime date)
         {
-            _acount = acount;
+            _acount = account;
             _sumAdding = sumAdding;
             Id = Guid.NewGuid();
+            AccountOwnerId = account.Id;
+            Date = date;
         }
 
+        public Guid AccountOwnerId { get; set; }
         public Guid Id { get; }
+        public DateTime Date { get; }
         public void DoOperation()
         {
             _acount.Balance += _sumAdding;

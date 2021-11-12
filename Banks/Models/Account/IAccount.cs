@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Banks.Models.Account.AccountFactory;
 using Banks.Models.ClientClass;
+using Banks.Models.Notification;
 
 namespace Banks.Models.Account
 {
@@ -12,7 +13,7 @@ namespace Banks.Models.Account
         public double Balance { get; set; }
         public Guid Id { get; set; }
         public Guid IdBank { get; set; }
-        public List<string> Notification { get; set; }
+        public List<INotification> Notification { get; set; }
         public bool IsTransactionAvailable(double sum);
         public void UpdateBalance(DateTime date);
     }

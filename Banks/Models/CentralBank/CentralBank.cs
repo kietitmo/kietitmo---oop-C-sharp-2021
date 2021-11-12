@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Banks.Exceptions;
 using Banks.Models.Account;
 using Banks.Models.Account.AccountFactory;
 using Banks.Models.BankClass;
 using Banks.Models.BankTransactions;
 using Banks.Models.ClientClass;
+using Banks.Models.Notification;
 using Banks.Services;
 using Banks.Timer;
 
@@ -74,7 +76,7 @@ namespace Banks.Models.CentralBank
         {
             Bank bank = BankServices.GetBankByName(bankName);
             bank.Commission = newCommission;
-            AccountServices.AddNotification(AccountServices.GetListKindOfAccount(TypeAccount.Credit), "Commission is changed to " + newCommission);
+            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new CommissionChanged());
             ////add notification to credit
         }
 
@@ -83,8 +85,8 @@ namespace Banks.Models.CentralBank
             Bank bank = BankServices.GetBankByName(bankName);
             bank.Persentage = newPersentage;
 
-            AccountServices.AddNotification(AccountServices.GetListKindOfAccount(TypeAccount.Debit), "Persentage is changed!");
-            AccountServices.AddNotification(AccountServices.GetListKindOfAccount(TypeAccount.Deposit), "Persentage is changed!");
+            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Debit), new PercentageChanged());
+            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Deposit), new PercentageChanged());
             //// add notification to deposit debit
         }
 
@@ -92,7 +94,7 @@ namespace Banks.Models.CentralBank
         {
             Bank bank = BankServices.GetBankByName(bankName);
             bank.DebtLimit = newDebtLimit;
-            AccountServices.AddNotification(AccountServices.GetListKindOfAccount(TypeAccount.Credit), "Debt limit is changed to " + newDebtLimit);
+            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new DebtLimitChanged());
             ////add notification to credit
         }
 
@@ -138,6 +140,7 @@ namespace Banks.Models.CentralBank
 
             IAccount account = accountFactory.CreateAccount(bank, client, balance, TimeMachine);
             account.TypeAccount = typeAccount;
+            AccountServices.AddNotificationForAccount(account, new AnotherNotificotion("Welcome to " + bank.Name));
             AccountServices.AddAccount(account);
         }
 
@@ -159,15 +162,16 @@ namespace Banks.Models.CentralBank
 
             if (!client.IsDoubtful() || sum < bankOfClient.MaxSumIfDoubtful)
             {
-                withDrawOperation = new WithDrawing(account, sum);
+                withDrawOperation = new WithDrawing(account, sum, TimeMachine.Date);
                 withDrawOperation.DoOperation();
                 TransactionServices.AddTransaction(withDrawOperation);
                 return withDrawOperation;
             }
 
-            withDrawOperation = new WithDrawing(account, bankOfClient.MaxSumIfDoubtful);
+            withDrawOperation = new WithDrawing(account, bankOfClient.MaxSumIfDoubtful, TimeMachine.Date);
             withDrawOperation.DoOperation();
             TransactionServices.AddTransaction(withDrawOperation);
+            AccountServices.AddNotificationForAccount(account, new ReducedBalance());
             return withDrawOperation;
         }
 
@@ -178,27 +182,23 @@ namespace Banks.Models.CentralBank
             Guid accountId = AccountServices.GetId(clientId, bankId);
             IAccount account = AccountServices.GetAccountById(accountId);
 
-            if (!account.IsTransactionAvailable(sum))
-            {
-                throw new BankException("CannotTransactionException");
-            }
-
             Client client = ClientServices.GetClientById(clientId);
             Bank bankOfClient = BankServices.GetBankbyId(bankId);
-            Replenishing withDrawOperation;
+            Replenishing replenishOperation;
 
             if (!client.IsDoubtful() || sum < bankOfClient.MaxSumIfDoubtful)
             {
-                withDrawOperation = new Replenishing(account, sum);
-                withDrawOperation.DoOperation();
-                TransactionServices.AddTransaction(withDrawOperation);
-                return withDrawOperation;
+                replenishOperation = new Replenishing(account, sum, TimeMachine.Date);
+                replenishOperation.DoOperation();
+                TransactionServices.AddTransaction(replenishOperation);
+                return replenishOperation;
             }
 
-            withDrawOperation = new Replenishing(account, bankOfClient.MaxSumIfDoubtful);
-            withDrawOperation.DoOperation();
-            TransactionServices.AddTransaction(withDrawOperation);
-            return withDrawOperation;
+            replenishOperation = new Replenishing(account, bankOfClient.MaxSumIfDoubtful, TimeMachine.Date);
+            replenishOperation.DoOperation();
+            TransactionServices.AddTransaction(replenishOperation);
+            AccountServices.AddNotificationForAccount(account, new IncreasedBalance());
+            return replenishOperation;
         }
 
         public IBankTransactions Transfer(string fromFirstName, string fromSurname, string fromBank, string toFirstName, string toSurname, string toBank, double sum)
@@ -226,15 +226,19 @@ namespace Banks.Models.CentralBank
 
             if (!clientSource.IsDoubtful() || sum < bankOfClientSource.MaxSumIfDoubtful)
             {
-                transferOperation = new Transfering(fromAccount, toAccount, sum);
+                transferOperation = new Transfering(fromAccount, toAccount, sum, TimeMachine.Date);
                 transferOperation.DoOperation();
                 TransactionServices.AddTransaction(transferOperation);
+                AccountServices.AddNotificationForAccount(toAccount, new IncreasedBalance());
+                AccountServices.AddNotificationForAccount(fromAccount, new ReducedBalance());
                 return transferOperation;
             }
 
-            transferOperation = new Transfering(fromAccount, toAccount, bankOfClientSource.MaxSumIfDoubtful);
+            transferOperation = new Transfering(fromAccount, toAccount, bankOfClientSource.MaxSumIfDoubtful, TimeMachine.Date);
             transferOperation.DoOperation();
             TransactionServices.AddTransaction(transferOperation);
+            AccountServices.AddNotificationForAccount(toAccount, new IncreasedBalance());
+            AccountServices.AddNotificationForAccount(fromAccount, new ReducedBalance());
             return transferOperation;
         }
 
@@ -268,6 +272,68 @@ namespace Banks.Models.CentralBank
         public void UpdateBalanceOfAllAccount()
         {
             AccountServices.UpdateBalanceOfAllAccount(TimeMachine.Date);
+        }
+
+        public void ShowAllNotificationOfAccount(string firstName, string surname, string bank)
+        {
+            Guid clientId = ClientServices.GetClientIdByNameAndSurname(firstName, surname);
+            Guid bankId = BankServices.GetBankIdbyName(bank);
+            Guid accountId = AccountServices.GetId(clientId, bankId);
+            IAccount account = AccountServices.GetAccountById(accountId);
+            int count = 1;
+            foreach (INotification notify in account.Notification)
+            {
+                Console.WriteLine(count + ". " + notify.ContentNotify);
+                count++;
+            }
+        }
+
+        public void ShowAllTransactionOfAccount(string firstName, string surname, string bank)
+        {
+            Guid clientId = ClientServices.GetClientIdByNameAndSurname(firstName, surname);
+            Guid bankId = BankServices.GetBankIdbyName(bank);
+            Guid accountId = AccountServices.GetId(clientId, bankId);
+            IEnumerable<IBankTransactions> transactionList = TransactionServices.GetAllTransactionOfAccount(accountId);
+            int count = 1;
+            foreach (IBankTransactions transaction in transactionList)
+            {
+                if (transaction is Transfering)
+                {
+                    Console.WriteLine(count + ". " + transaction.Date + " Tranfering transaction");
+                    count++;
+                }
+
+                if (transaction is WithDrawing)
+                {
+                    Console.WriteLine(count + ". " + transaction.Date + " Withdrawing transaction");
+                    count++;
+                }
+
+                if (transaction is Replenishing)
+                {
+                    Console.WriteLine(count + ". " + transaction.Date + " Replenishing transaction");
+                    count++;
+                }
+            }
+        }
+
+        public void CancelLastTransaction(string firstName, string surname, string bank)
+        {
+            Guid clientId = ClientServices.GetClientIdByNameAndSurname(firstName, surname);
+            Guid bankId = BankServices.GetBankIdbyName(bank);
+            Guid accountId = AccountServices.GetId(clientId, bankId);
+            TransactionServices.RemoveTransactions(TransactionServices.GetLastTransactionOfAccount(accountId));
+        }
+
+        public void ShowListAllBank()
+        {
+            IEnumerable<Bank> bankList = BankServices.GetEnumerator();
+            int count = 1;
+            foreach (Bank bank in bankList)
+            {
+                Console.WriteLine(count + ". " + bank.Name + ".");
+                count++;
+            }
         }
     }
 }

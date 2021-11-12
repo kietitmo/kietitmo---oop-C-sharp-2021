@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Banks.Models.Account.AccountFactory;
 using Banks.Models.ClientClass;
-using Banks.Timer;
+using Banks.Models.Notification;
 
 namespace Banks.Models.Account
 {
@@ -15,7 +15,7 @@ namespace Banks.Models.Account
             Balance = balance;
             Id = Guid.NewGuid();
             TypeAccount = AccountFactory.TypeAccount.Deposit;
-            Notification = new List<string>();
+            Notification = new List<INotification>();
             LastDateUpdate = timeMachine.Date;
         }
 
@@ -27,7 +27,7 @@ namespace Banks.Models.Account
         public Guid IdBank { get; set; }
         public Persentage Persentage { get; }
         public int Period { get; set; }
-        public List<string> Notification { get; set; }
+        public List<INotification> Notification { get; set; }
         public void CalculateBalanceWithPersentage()
         {
             if (Balance < Persentage.SumWithLowPersentage)
@@ -60,7 +60,7 @@ namespace Banks.Models.Account
         public void UpdateBalance(DateTime date)
         {
             TimeSpan quantityDays = date - LastDateUpdate;
-            for (int i = 0; i < quantityDays.TotalDays; i++)
+            for (int i = 0; i < Math.Abs(quantityDays.TotalDays); i++)
             {
                 CalculateBalanceWithPersentage();
             }

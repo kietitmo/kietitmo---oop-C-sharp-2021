@@ -26,7 +26,8 @@ namespace Banks.UI
             Console.WriteLine($"3. Change Persentage of a bank.");
             Console.WriteLine($"3. Change debt limit of a bank.");
             Console.WriteLine($"5. Get Information a a bank.");
-            Console.WriteLine($"6. Return.");
+            Console.WriteLine($"6. Show list all bank.");
+            Console.WriteLine($"7. Return");
             Console.Write($"Please enter your choice: ");
             string choice = Console.ReadLine();
             Console.WriteLine($"================================");
@@ -184,7 +185,13 @@ namespace Banks.UI
                     break;
 
                 case "6":
+                    Console.WriteLine("List of all banks:");
+                    _centralBank.ShowListAllBank();
                     break;
+
+                case "7":
+                    break;
+
                 default:
                     Console.WriteLine("Please enter number in menu!");
                     break;

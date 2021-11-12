@@ -8,14 +8,18 @@ namespace Banks.Models.BankTransactions
         private IAccount _acount;
         private double _sum;
 
-        public WithDrawing(IAccount acount, double sum)
+        public WithDrawing(IAccount acount, double sum, DateTime date)
         {
             _acount = acount;
             _sum = sum;
             Id = Guid.NewGuid();
+            AccountOwnerId = acount.Id;
+            Date = date;
         }
 
+        public Guid AccountOwnerId { get; set; }
         public Guid Id { get; }
+        public DateTime Date { get; }
 
         public void DoOperation()
         {

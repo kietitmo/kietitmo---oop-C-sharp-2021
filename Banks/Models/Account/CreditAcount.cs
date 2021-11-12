@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Banks.Models.Account.AccountFactory;
 using Banks.Models.ClientClass;
-using Banks.Timer;
+using Banks.Models.Notification;
 
 namespace Banks.Models.Account
 {
@@ -15,7 +15,7 @@ namespace Banks.Models.Account
             Balance = balance;
             Id = Guid.NewGuid();
             TypeAccount = AccountFactory.TypeAccount.Credit;
-            Notification = new List<string>();
+            Notification = new List<INotification>();
             LastDateUpdate = timeMachine.Date;
         }
 
@@ -27,7 +27,7 @@ namespace Banks.Models.Account
         public Guid IdBank { get; set; }
         public double DebtLimit { get; set; }
         public double Comission { get; set; }
-        public List<string> Notification { get; set; }
+        public List<INotification> Notification { get; set; }
         public void CalculateBalanceWithComission()
         {
             if (Balance > 0)
@@ -46,7 +46,7 @@ namespace Banks.Models.Account
         public void UpdateBalance(DateTime date)
         {
             TimeSpan quantityDays = date - LastDateUpdate;
-            for (int i = 0; i < quantityDays.TotalDays; i++)
+            for (int i = 0; i < Math.Abs(quantityDays.TotalDays); i++)
             {
                 CalculateBalanceWithComission();
             }

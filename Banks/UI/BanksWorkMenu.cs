@@ -27,7 +27,10 @@ namespace Banks.UI
             Console.WriteLine($"5. Withdraw money.");
             Console.WriteLine($"6. Update Adress Client.");
             Console.WriteLine($"7. Update Passport of Client.");
-            Console.WriteLine($"8. Return.");
+            Console.WriteLine($"8. Show all notification of a account.");
+            Console.WriteLine($"9. Show all transaction of a account");
+            Console.WriteLine($"10. Cancel last transaction.");
+            Console.WriteLine($"11. Return.");
             Console.Write($"Please enter your choice: ");
             string choice = Console.ReadLine();
             Console.WriteLine($"================================");
@@ -219,6 +222,39 @@ namespace Banks.UI
                     break;
 
                 case "8":
+                    Console.Write("Enter name of bank: ");
+                    nameBank = Console.ReadLine();
+                    Console.Write("Enter your first name: ");
+                    firstnameClient = Console.ReadLine();
+                    Console.Write("Enter your surname: ");
+                    surnameClient = Console.ReadLine();
+                    Console.WriteLine("All Notification of account: ");
+                    _centralBank.ShowAllNotificationOfAccount(firstnameClient, surnameClient, nameBank);
+                    break;
+
+                case "9":
+                    Console.Write("Enter name of bank: ");
+                    nameBank = Console.ReadLine();
+                    Console.Write("Enter your first name: ");
+                    firstnameClient = Console.ReadLine();
+                    Console.Write("Enter your surname: ");
+                    surnameClient = Console.ReadLine();
+                    Console.WriteLine("All Transactions of account: ");
+                    _centralBank.ShowAllTransactionOfAccount(firstnameClient, surnameClient, nameBank);
+                    break;
+
+                case "10":
+                    Console.Write("Enter name of bank: ");
+                    nameBank = Console.ReadLine();
+                    Console.Write("Enter your first name: ");
+                    firstnameClient = Console.ReadLine();
+                    Console.Write("Enter your surname: ");
+                    surnameClient = Console.ReadLine();
+                    _centralBank.CancelLastTransaction(firstnameClient, surnameClient, nameBank);
+                    Console.WriteLine("Last transaction of account is canceled!");
+                    break;
+
+                case "11":
                     break;
 
                 default:

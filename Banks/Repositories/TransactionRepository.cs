@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Banks.Exceptions;
 using Banks.Models.BankTransactions;
 
@@ -40,5 +41,24 @@ namespace Banks.Repositories
 
         public void Update(List<IBankTransactions> newList)
             => TransactionList = newList;
+
+        public IEnumerable<IBankTransactions> GetAllTransactionOfAccount(Guid accountId)
+        {
+            var transactionsList = new List<IBankTransactions>();
+            foreach (IBankTransactions transaction in TransactionList)
+            {
+                if (transaction.AccountOwnerId == accountId)
+                {
+                    transactionsList.Add(transaction);
+                }
+            }
+
+            return transactionsList;
+        }
+
+        public IBankTransactions GetLastTransactionOfAccount(Guid accountID)
+        {
+            return GetAllTransactionOfAccount(accountID).Last();
+        }
     }
 }

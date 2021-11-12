@@ -29,5 +29,14 @@ namespace Banks.Services
 
         public void Update(List<IBankTransactions> newList)
             => _transactionRepository.TransactionList = newList;
+        public IEnumerable<IBankTransactions> GetAllTransactionOfAccount(Guid accountId)
+        {
+            return _transactionRepository.GetAllTransactionOfAccount(accountId);
+        }
+
+        public IBankTransactions GetLastTransactionOfAccount(Guid accountID)
+        {
+            return _transactionRepository.GetLastTransactionOfAccount(accountID);
+        }
     }
 }

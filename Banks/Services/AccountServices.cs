@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Banks.Models.Account;
+using Banks.Models.Notification;
 using Banks.Repositories;
 
 namespace Banks.Services
@@ -35,12 +36,17 @@ namespace Banks.Services
             return _accountRepository.GetListKindOfAccount(type);
         }
 
-        public void AddNotification(IEnumerable<IAccount> accountList, string notification)
+        public void AddNotifications(IEnumerable<IAccount> accountList, INotification notification)
         {
             foreach (IAccount account in accountList)
             {
                 account.Notification.Add(notification);
             }
+        }
+
+        public void AddNotificationForAccount(IAccount account, INotification notification)
+        {
+            account.Notification.Add(notification);
         }
 
         public void UpdateBalanceOfAllAccount(DateTime date)
@@ -49,6 +55,11 @@ namespace Banks.Services
             {
                 account.UpdateBalance(date);
             }
+        }
+
+        public IEnumerable<INotification> GetNotificationOfAccount(IAccount account)
+        {
+            return account.Notification;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Banks.Repositories
 
         public IEnumerable<IAccount> GetListKindOfAccount(Models.Account.AccountFactory.TypeAccount type)
         {
-            var creditListAccount = new List<IAccount>();
+            var listAccount = new List<IAccount>();
 
             switch (type)
             {
@@ -53,7 +53,7 @@ namespace Banks.Repositories
                     {
                         if (account.TypeAccount == Models.Account.AccountFactory.TypeAccount.Credit)
                         {
-                            creditListAccount.Add(account);
+                            listAccount.Add(account);
                         }
                     }
 
@@ -64,7 +64,7 @@ namespace Banks.Repositories
                     {
                         if (account.TypeAccount == Models.Account.AccountFactory.TypeAccount.Deposit)
                         {
-                            creditListAccount.Add(account);
+                            listAccount.Add(account);
                         }
                     }
 
@@ -75,14 +75,14 @@ namespace Banks.Repositories
                     {
                         if (account.TypeAccount == Models.Account.AccountFactory.TypeAccount.Debit)
                         {
-                            creditListAccount.Add(account);
+                            listAccount.Add(account);
                         }
                     }
 
                     break;
             }
 
-            return creditListAccount;
+            return listAccount;
         }
 
         public IEnumerable<IAccount> GetEnumerator()
