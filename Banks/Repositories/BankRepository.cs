@@ -52,6 +52,19 @@ namespace Banks.Repositories
             throw new BankException("BankIsNotExistException");
         }
 
+        public bool FindBankIdByName(string name)
+        {
+            foreach (Bank bank in BankList)
+            {
+                if (bank.Name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public IEnumerable<Bank> GetEnumerator()
             => BankList;
 

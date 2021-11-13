@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Banks.Exceptions;
+using Banks.Models.Account.AccountFactory;
 using Banks.Models.ClientClass;
 
 namespace Banks.Repositories
@@ -40,6 +41,21 @@ namespace Banks.Repositories
             }
 
             throw new BankException("ClientIsNotExistException");
+        }
+
+        public List<Phone> GetPhoneClientList(TypeAccount type)
+        {
+            var phoneList = new List<Phone>();
+            foreach (Client client in ClientList)
+            {
+                if (client.TypeAccountClientHave.Contains(type))
+                {
+                    phoneList.Add(client.PhoneClient);
+                }
+            }
+
+            Console.WriteLine(phoneList.Count);
+            return phoneList;
         }
 
         public IEnumerable<Client> GetEnumerator()

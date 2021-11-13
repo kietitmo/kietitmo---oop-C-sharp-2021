@@ -31,7 +31,7 @@ namespace Banks.Services
             return _accountRepository.GetQuantityAccount();
         }
 
-        public IEnumerable<IAccount> GetListKindOfAccount(Models.Account.AccountFactory.TypeAccount type)
+        public List<IAccount> GetListKindOfAccount(Models.Account.AccountFactory.TypeAccount type)
         {
             return _accountRepository.GetListKindOfAccount(type);
         }
@@ -57,7 +57,7 @@ namespace Banks.Services
             }
         }
 
-        public IEnumerable<INotification> GetNotificationOfAccount(IAccount account)
+        public List<INotification> GetNotificationOfAccount(IAccount account)
         {
             return account.Notification;
         }

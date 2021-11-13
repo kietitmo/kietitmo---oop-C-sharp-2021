@@ -2,6 +2,7 @@
 using System.Linq;
 using Banks.Models.Account.AccountFactory;
 using Banks.Models.CentralBank;
+using Banks.Models.ClientClass;
 
 namespace Banks.UI
 {
@@ -28,9 +29,10 @@ namespace Banks.UI
             Console.WriteLine($"6. Update Adress Client.");
             Console.WriteLine($"7. Update Passport of Client.");
             Console.WriteLine($"8. Show all notification of a account.");
-            Console.WriteLine($"9. Show all transaction of a account");
-            Console.WriteLine($"10. Cancel last transaction.");
-            Console.WriteLine($"11. Return.");
+            Console.WriteLine($"9. Show all notification via phone of a client.");
+            Console.WriteLine($"10. Show all transaction of a account");
+            Console.WriteLine($"11. Cancel last transaction.");
+            Console.WriteLine($"12. Return.");
             Console.Write($"Please enter your choice: ");
             string choice = Console.ReadLine();
             Console.WriteLine($"================================");
@@ -41,10 +43,20 @@ namespace Banks.UI
                     //// Firstly Create Client
                     Console.Write("Enter name of bank: ");
                     string nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     string firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
                     string surnameClient = Console.ReadLine();
+                    Console.Write("Enter your phone number: ");
+                    string phoneNumber = Console.ReadLine();
+                    var phone = new Phone(phoneNumber);
                     Console.Write("Enter balance: ");
                     string balance = Console.ReadLine();
                     if (balance.Any(x => char.IsLetter(x)))
@@ -68,12 +80,12 @@ namespace Banks.UI
                         string passportNumber = Console.ReadLine();
                         Console.Write("Enter your address: ");
                         string address = Console.ReadLine();
-                        _centralBank.CreateClient(firstnameClient, surnameClient, new Models.ClientClass.PassportData(passportSeries, passportNumber), address);
+                        _centralBank.CreateClient(firstnameClient, surnameClient, phone, new Models.ClientClass.PassportData(passportSeries, passportNumber), address);
                     }
 
                     if (choiceDoubt == "2")
                     {
-                        _centralBank.CreateClient(firstnameClient, surnameClient);
+                        _centralBank.CreateClient(firstnameClient, surnameClient, phone);
                     }
 
                     //// Then Create Account
@@ -119,6 +131,13 @@ namespace Banks.UI
                     Console.WriteLine($"2. Check balance. \n");
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -130,6 +149,13 @@ namespace Banks.UI
                     Console.WriteLine($"3. Add money into your account.\n");
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -151,6 +177,13 @@ namespace Banks.UI
 
                     Console.Write("Enter name of first bank (from): ");
                     string nameBankSource = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBankSource))
+                    {
+                        Console.WriteLine("source bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     string firstnameClientSource = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -158,6 +191,13 @@ namespace Banks.UI
 
                     Console.Write("Enter name of second bank (Target): ");
                     string nameBankTarget = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBankTarget))
+                    {
+                        Console.WriteLine("Target bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name (Target Client): ");
                     string firstnameClientTarget = Console.ReadLine();
                     Console.Write("Enter your surname (Target Client): ");
@@ -179,6 +219,13 @@ namespace Banks.UI
                     Console.WriteLine($"5. Withdraw money. \n");
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -224,6 +271,13 @@ namespace Banks.UI
                 case "8":
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -231,10 +285,27 @@ namespace Banks.UI
                     Console.WriteLine("All Notification of account: ");
                     _centralBank.ShowAllNotificationOfAccount(firstnameClient, surnameClient, nameBank);
                     break;
-
                 case "9":
+                    Console.WriteLine($"9. Show all notification via phone of a client.");
+                    Console.Write("Enter your first name: ");
+                    firstnameClient = Console.ReadLine();
+                    Console.Write("Enter your surname: ");
+                    surnameClient = Console.ReadLine();
+                    Console.WriteLine("All Notification of client: ");
+                    _centralBank.ShowAllNotificationsViaPhoneOfClient(firstnameClient, surnameClient);
+                    break;
+
+                case "10":
+                    Console.WriteLine($"10. Show all transaction of account.");
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
+
+                    if (!_centralBank.BankServices.FindBankIdByName(nameBank))
+                    {
+                        Console.WriteLine("That bank does not exist!");
+                        break;
+                    }
+
                     Console.Write("Enter your first name: ");
                     firstnameClient = Console.ReadLine();
                     Console.Write("Enter your surname: ");
@@ -243,7 +314,8 @@ namespace Banks.UI
                     _centralBank.ShowAllTransactionOfAccount(firstnameClient, surnameClient, nameBank);
                     break;
 
-                case "10":
+                case "11":
+                    Console.WriteLine($"11. Cancel last transaction.");
                     Console.Write("Enter name of bank: ");
                     nameBank = Console.ReadLine();
                     Console.Write("Enter your first name: ");
@@ -254,7 +326,7 @@ namespace Banks.UI
                     Console.WriteLine("Last transaction of account is canceled!");
                     break;
 
-                case "11":
+                case "12":
                     break;
 
                 default:

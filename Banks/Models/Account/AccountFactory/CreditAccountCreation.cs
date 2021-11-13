@@ -8,7 +8,8 @@ namespace Banks.Models.Account.AccountFactory
     {
         public IAccount CreateAccount(Bank bank, Client client, double balance, TimeMachine timeMachine)
         {
-            var account = new CreditAcount(bank.Commission, bank.Commission, balance, timeMachine);
+            var account = new CreditAcount(bank.DebtLimit, bank.Commission, balance, timeMachine);
+            client.TypeAccountClientHave.Add(TypeAccount.Credit);
             account.Owner = client;
             account.IdBank = bank.Id;
             return account;

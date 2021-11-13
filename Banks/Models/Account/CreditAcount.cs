@@ -8,7 +8,7 @@ namespace Banks.Models.Account
 {
     public class CreditAcount : IAccount
     {
-        public CreditAcount(double linmit, double comission, double balance, Timer.TimeMachine timeMachine)
+        public CreditAcount(DebtLimit linmit, Commission comission, double balance, Timer.TimeMachine timeMachine)
         {
             DebtLimit = linmit;
             Comission = comission;
@@ -25,8 +25,8 @@ namespace Banks.Models.Account
         public double Balance { get; set; }
         public Guid Id { get; set; }
         public Guid IdBank { get; set; }
-        public double DebtLimit { get; set; }
-        public double Comission { get; set; }
+        public DebtLimit DebtLimit { get; set; }
+        public Commission Comission { get; set; }
         public List<INotification> Notification { get; set; }
         public void CalculateBalanceWithComission()
         {
@@ -35,12 +35,12 @@ namespace Banks.Models.Account
                 return;
             }
 
-            Balance -= Comission;
+            Balance -= Comission.ValueCommission;
         }
 
         public bool IsTransactionAvailable(double sum)
         {
-            return (Balance - sum) > DebtLimit;
+            return (Balance - sum) > DebtLimit.ValueDebtLimit;
         }
 
         public void UpdateBalance(DateTime date)

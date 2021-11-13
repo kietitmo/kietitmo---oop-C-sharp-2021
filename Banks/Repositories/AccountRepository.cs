@@ -42,7 +42,7 @@ namespace Banks.Repositories
             throw new BankException("AccountIsNotExistException");
         }
 
-        public IEnumerable<IAccount> GetListKindOfAccount(Models.Account.AccountFactory.TypeAccount type)
+        public List<IAccount> GetListKindOfAccount(Models.Account.AccountFactory.TypeAccount type)
         {
             var listAccount = new List<IAccount>();
 

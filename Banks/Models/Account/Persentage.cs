@@ -1,6 +1,8 @@
-﻿namespace Banks.Models.Account
+﻿using Banks.Models.Notification;
+using Banks.Observer;
+namespace Banks.Models.Account
 {
-    public class Persentage
+    public class Persentage : Subject
     {
         public Persentage(double lowPersentage, double mediumPersentage, double highPersentage)
         {
@@ -15,5 +17,10 @@
 
         public double SumWithLowPersentage { get; set; }
         public double SumWithMediumPersentage { get; set; }
+
+        public void ChangePercentage()
+        {
+            NotiifyObserver(new PercentageChanged());
+        }
     }
 }

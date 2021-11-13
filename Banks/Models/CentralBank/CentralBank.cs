@@ -7,6 +7,7 @@ using Banks.Models.BankClass;
 using Banks.Models.BankTransactions;
 using Banks.Models.ClientClass;
 using Banks.Models.Notification;
+using Banks.Observer;
 using Banks.Services;
 using Banks.Timer;
 
@@ -29,23 +30,23 @@ namespace Banks.Models.CentralBank
         public ClientServices ClientServices { get; set; }
         public TransactionServices TransactionServices { get; set; }
 
-        public Bank CreateBank(string name, double commission, Persentage persentage, double debtLimit, double maxSumIfDoubtful)
+        public Bank CreateBank(string name, Commission commission, Persentage persentage, DebtLimit debtLimit, double maxSumIfDoubtful)
         {
             var bank = new Bank(name, commission, persentage, debtLimit, maxSumIfDoubtful);
             BankServices.AddBank(bank);
             return bank;
         }
 
-        public Client CreateClient(string name, string surname)
+        public Client CreateClient(string name, string surname, Phone phone)
         {
-            Client client = new ClientBuilder().SetName(name).SetSurname(surname).Build();
+            Client client = new ClientBuilder().SetName(name).SetSurname(surname).SetPhone(phone).Build();
             ClientServices.AddClient(client);
             return client;
         }
 
-        public Client CreateClient(string name, string surname, PassportData passportData, string address)
+        public Client CreateClient(string name, string surname,  Phone phone, PassportData passportData, string address)
         {
-            Client client = new ClientBuilder().SetName(name).SetSurname(surname).SetPassport(passportData).SetAddress(address).Build();
+            Client client = new ClientBuilder().SetName(name).SetSurname(surname).SetPhone(phone).SetPassport(passportData).SetAddress(address).Build();
             ClientServices.AddClient(client);
             return client;
         }
@@ -72,29 +73,43 @@ namespace Banks.Models.CentralBank
             client.Address = address;
         }
 
-        public void SetComission(string bankName, double newCommission)
+        public void SetComission(string bankName, double newCommissionValue)
         {
             Bank bank = BankServices.GetBankByName(bankName);
-            bank.Commission = newCommission;
-            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new CommissionChanged());
+            bank.Commission.ValueCommission = newCommissionValue;
+            bank.Commission.AddObserver(new AccountNotifier(AccountServices.GetListKindOfAccount(TypeAccount.Credit)));
+            bank.Commission.AddObserver(new PhoneNotifier(ClientServices.GetPhoneClientList(TypeAccount.Credit)));
+            bank.Commission.ChangeCommission();
+            ////AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new CommissionChanged());
             ////add notification to credit
         }
 
-        public void SetPersentage(string bankName, Persentage newPersentage)
+        public void SetPersentage(string bankName, double lowPer, double mediumPer, double highPer)
         {
             Bank bank = BankServices.GetBankByName(bankName);
-            bank.Persentage = newPersentage;
+            bank.Persentage.LowPersentage = lowPer;
+            bank.Persentage.MediumPersentage = mediumPer;
+            bank.Persentage.HighPersentage = highPer;
 
-            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Debit), new PercentageChanged());
-            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Deposit), new PercentageChanged());
+            bank.Persentage.AddObserver(new AccountNotifier(AccountServices.GetListKindOfAccount(TypeAccount.Debit)));
+            bank.Persentage.AddObserver(new AccountNotifier(AccountServices.GetListKindOfAccount(TypeAccount.Deposit)));
+            bank.Persentage.AddObserver(new PhoneNotifier(ClientServices.GetPhoneClientList(TypeAccount.Debit)));
+            bank.Persentage.AddObserver(new PhoneNotifier(ClientServices.GetPhoneClientList(TypeAccount.Deposit)));
+            bank.Persentage.ChangePercentage();
+
+            ////AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Debit), new PercentageChanged());
+            ////AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Deposit), new PercentageChanged());
             //// add notification to deposit debit
         }
 
-        public void SetDebtLimit(string bankName, double newDebtLimit)
+        public void SetDebtLimit(string bankName, double newDebtLimitValue)
         {
             Bank bank = BankServices.GetBankByName(bankName);
-            bank.DebtLimit = newDebtLimit;
-            AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new DebtLimitChanged());
+            bank.DebtLimit.ValueDebtLimit = newDebtLimitValue;
+            bank.DebtLimit.AddObserver(new AccountNotifier(AccountServices.GetListKindOfAccount(TypeAccount.Credit)));
+            bank.DebtLimit.AddObserver(new PhoneNotifier(ClientServices.GetPhoneClientList(TypeAccount.Credit)));
+            bank.DebtLimit.ChangeDebtLimit();
+            ////AccountServices.AddNotifications(AccountServices.GetListKindOfAccount(TypeAccount.Credit), new DebtLimitChanged());
             ////add notification to credit
         }
 
@@ -332,6 +347,18 @@ namespace Banks.Models.CentralBank
             foreach (Bank bank in bankList)
             {
                 Console.WriteLine(count + ". " + bank.Name + ".");
+                count++;
+            }
+        }
+
+        public void ShowAllNotificationsViaPhoneOfClient(string firstName, string surname)
+        {
+            Guid clientId = ClientServices.GetClientIdByNameAndSurname(firstName, surname);
+            Client client = ClientServices.GetClientById(clientId);
+            int count = 1;
+            foreach (INotification notification in client.PhoneClient.Notifications)
+            {
+                Console.WriteLine(count + ". " + notification.ContentNotify + ".");
                 count++;
             }
         }

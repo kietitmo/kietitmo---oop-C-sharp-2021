@@ -9,6 +9,7 @@ namespace Banks.Models.ClientClass
         public PassportData PassportData { get; set; }
         public string Address { get; set; }
         public Guid Id { get; }
+        public Phone PhoneClient { get; set; }
 
         public ClientBuilder SetAddress(string address)
         {
@@ -34,9 +35,15 @@ namespace Banks.Models.ClientClass
             return this;
         }
 
+        public ClientBuilder SetPhone(Phone phone)
+        {
+            PhoneClient = phone;
+            return this;
+        }
+
         public Client Build()
         {
-            return new Client(FirstName, Surname, PassportData, Address);
+            return new Client(FirstName, Surname, PhoneClient, PassportData, Address);
         }
     }
 }

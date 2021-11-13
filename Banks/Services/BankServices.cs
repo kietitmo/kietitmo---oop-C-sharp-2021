@@ -28,6 +28,11 @@ namespace Banks.Services
             return _bankRepository.GetBankIdByName(name);
         }
 
+        public bool FindBankIdByName(string name)
+        {
+            return _bankRepository.FindBankIdByName(name);
+        }
+
         public IEnumerable<Bank> GetEnumerator()
         {
             return _bankRepository.BankList;
