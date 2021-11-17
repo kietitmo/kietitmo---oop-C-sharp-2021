@@ -9,14 +9,15 @@ namespace Backups.Classes
         public DirectoryOfBackup(string name, DirectoryOfBackup parentDirectoty = null)
         {
             ID = toSetID + 1;
-            Name = name;
-            ParentDictionary = parentDirectoty;
+            NameOfDirectory = name;
+            ParentDirectory = parentDirectoty;
+            ChildrenDirectories = new List<IDirectory>();
         }
 
         public int ID { get; set; }
-        public string Name { get; set; }
-        public IDirectory ParentDictionary { get; set; }
+        public string NameOfDirectory { get; set; }
+        public IDirectory ParentDirectory { get; set; }
         public List<FileOfJob> Files { get; } = new List<FileOfJob>();
-        public List<IDirectory> Directories { get; } = new List<IDirectory>();
+        public List<IDirectory> ChildrenDirectories { get; }
     }
 }

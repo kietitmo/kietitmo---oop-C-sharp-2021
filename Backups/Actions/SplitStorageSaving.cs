@@ -12,7 +12,7 @@ namespace Backups.Actions
         {
             foreach (FileOfJob file in jobObjectsList)
             {
-                var archive = new ArchiveFile(lastPointDirectory.Name + @"\" + file.Name + ".zip", file.Size);
+                var archive = new ArchiveFile(lastPointDirectory.NameOfDirectory + @"\" + file.Name + ".zip", file.Size);
 
                 archive.Files.Add(new FileOfJob(file));
 

@@ -12,7 +12,7 @@ namespace Backups.Actions
         private static int _pointCount = 1;
         public void StorageCreation(List<FileOfJob> jobObjectsList, IDirectory lastPointDirectory)
         {
-            var archive = new ArchiveFile(Path.Combine(lastPointDirectory.Name, $@"RestorePoint{_pointCount}.zip"), jobObjectsList.Sum(x => x.Size));
+            var archive = new ArchiveFile(Path.Combine(lastPointDirectory.NameOfDirectory, $@"RestorePoint{_pointCount}.zip"), jobObjectsList.Sum(x => x.Size));
 
             lastPointDirectory.Files.Add(archive);
 

@@ -56,16 +56,16 @@ namespace Backups.Actions
 
             pointCount++;
 
-            _jobDirectory.Directories.RemoveAll(d => d.Name == $@"RestorePoint{pointCount}");
+            _jobDirectory.ChildrenDirectories.RemoveAll(d => d.NameOfDirectory == $@"RestorePoint{pointCount}");
 
             _lastPointDirectory = new DirectoryOfBackup(Path.Combine(Name, $@"RestorePoint {pointCount}"), _jobDirectory as DirectoryOfBackup);
 
-            _jobDirectory.Directories.Add(_lastPointDirectory);
+            _jobDirectory.ChildrenDirectories.Add(_lastPointDirectory);
         }
 
         public void DeleteRestorePoint(RestorePoint restorePointNeedToDelete)
         {
-            _jobDirectory.Directories.Remove(restorePointNeedToDelete.DirectoryOfRestorePoint);
+            _jobDirectory.ChildrenDirectories.Remove(restorePointNeedToDelete.DirectoryOfRestorePoint);
             RestorePointList.Remove(restorePointNeedToDelete);
         }
     }

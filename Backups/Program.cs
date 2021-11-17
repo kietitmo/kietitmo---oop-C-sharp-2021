@@ -25,9 +25,9 @@ namespace Backups
             backupJob.RunBackupJob();
             foreach (IDirectory directory in fileSystem.Directories)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (IDirectory directoryChild in directory.ChildrenDirectories)
                 {
-                    Console.WriteLine(directoryChild.Name);
+                    Console.WriteLine(directoryChild.NameOfDirectory);
                     foreach (FileOfJob file in directoryChild.Files)
                     {
                         Console.WriteLine(file.Name + " ");
@@ -52,7 +52,7 @@ namespace Backups
 
             foreach (IDirectory directory in fileSystem.Directories)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (IDirectory directoryChild in directory.ChildrenDirectories)
                 {
                     foreach (FileOfJob file in directoryChild.Files)
                     {
