@@ -30,7 +30,7 @@ namespace Backups.Tests
             int storageCount = 0;
             foreach (IDirectory directory in fileSystem.Directories)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (IDirectory directoryChild in directory.ChildrenDirectories)
                 {
                     foreach (FileOfJob file in directoryChild.Files)
                     {
@@ -62,7 +62,7 @@ namespace Backups.Tests
             int storageFile = 0;
             foreach (IDirectory directory in fileSystem.Directories)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (IDirectory directoryChild in directory.ChildrenDirectories)
                 {
                     foreach (FileOfJob file in directoryChild.Files)
                     {
