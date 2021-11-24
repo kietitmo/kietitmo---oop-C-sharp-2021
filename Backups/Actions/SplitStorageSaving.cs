@@ -8,7 +8,7 @@ namespace Backups.Actions
     public class SplitStorageSaving : IStorageTypeAlgorithm
     {
         private static int _pointCount = 1;
-        public void StorageCreation(List<FileOfJob> jobObjectsList, IDirectory lastPointDirectory)
+        public Storage StorageCreation(List<FileOfJob> jobObjectsList, IDirectory lastPointDirectory)
         {
             foreach (FileOfJob file in jobObjectsList)
             {
@@ -20,6 +20,7 @@ namespace Backups.Actions
             }
 
             _pointCount++;
+            return new Storage(lastPointDirectory.Files, StorageType.Split);
         }
     }
 }

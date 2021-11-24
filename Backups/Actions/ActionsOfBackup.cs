@@ -31,9 +31,8 @@ namespace Backups.Actions
         {
             CreateDirectory();
             CreateRestorePoint();
-            StorageSaving.StorageCreation(JobObjectsList, _lastPointDirectory);
 
-            var point = new RestorePoint(JobObjectsList, _lastPointDirectory);
+            var point = new RestorePoint(JobObjectsList, StorageSaving.StorageCreation(JobObjectsList, _lastPointDirectory), _lastPointDirectory);
             RestorePointList.Add(point);
             return point;
         }
