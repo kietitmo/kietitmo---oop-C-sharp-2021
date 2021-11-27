@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
-using Backups.InterfaceLab;
-
 namespace Backups.Classes
 {
-    public class DirectoryOfBackup : IDirectory
+    public class DirectoryOfBackup
     {
-        private static int toSetID = 0;
-        public DirectoryOfBackup(string name, DirectoryOfBackup parentDirectoty = null)
+        public DirectoryOfBackup(string path, string name)
         {
-            ID = toSetID + 1;
+            Path = path;
             Name = name;
-            ParentDictionary = parentDirectoty;
         }
 
-        public int ID { get; set; }
+        public DirectoryOfBackup()
+        {
+        }
+
+        public string Path { get; set; }
         public string Name { get; set; }
-        public IDirectory ParentDictionary { get; set; }
-        public List<FileOfJob> Files { get; } = new List<FileOfJob>();
-        public List<IDirectory> Directories { get; } = new List<IDirectory>();
+        public List<FileOfJob> Files { get; set; } = new List<FileOfJob>();
+        public List<ArchiveFile> ArchiveFiles { get; set; } = new List<ArchiveFile>();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Backups.Actions;
 using Backups.Classes;
-using Backups.InterfaceLab;
 using Backups.InterfaceLab.Actions;
 using Backups.Service;
 using NUnit.Framework;
@@ -13,29 +12,27 @@ namespace Backups.Tests
         [Test]
         public void TestCase1_SplitStorage()
         {
-            var file1 = new FileOfJob("1.txt", 2);
-            var file2 = new FileOfJob("2.txt", 2);
+            var file1 = new FileOfJob("1.txt", 2, @"Z:\1.txt");
+            var file2 = new FileOfJob("2.txt", 2, @"Z:\2.txt");
 
             var fileList = new List<FileOfJob>() { file1, file2 };
 
             IStorageTypeAlgorithm storageTypeAlgorithm = new SplitStorageSaving();
-            IFileSystem fileSystem = new FileSystem();
+            var directories = new DirectoriesManager();
             var restorePointList = new List<RestorePoint>();
-            var backupJob = new BackupJob("backupJob", fileList, storageTypeAlgorithm, fileSystem, restorePointList);
+            var backupJob = new BackupJob("backupJob", @"Z:\", fileList, storageTypeAlgorithm, directories, restorePointList);
 
             backupJob.RunBackupJob();
             fileList.Remove(file2);
             backupJob.RunBackupJob();
             int restorePointCount = restorePointList.Count;
             int storageCount = 0;
-            foreach (IDirectory directory in fileSystem.Directories)
+
+            foreach (RestorePoint rp in restorePointList)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (FileOfJob file in rp.StorageRestorePoint.ArchiveFileList)
                 {
-                    foreach (FileOfJob file in directoryChild.Files)
-                    {
-                        storageCount++;
-                    }
+                    storageCount++;
                 }
             }
 
@@ -46,31 +43,29 @@ namespace Backups.Tests
         [Test]
         public void TestCase2_SingleStorage()
         {
-            var file1 = new FileOfJob("1.txt", 2);
-            var file2 = new FileOfJob("2.txt", 2);
+            var file1 = new FileOfJob("1.txt", 2, @"Z:\1.txt");
+            var file2 = new FileOfJob("2.txt", 2, @"Z:\2.txt");
 
             var fileList = new List<FileOfJob>() { file1, file2 };
 
             IStorageTypeAlgorithm storageTypeAlgorithm = new SingleStorageSaving();
-            IFileSystem fileSystem = new FileSystem();
+            var directories = new DirectoriesManager();
             var restorePointList = new List<RestorePoint>();
-            var backupJob = new BackupJob("backupJob", fileList, storageTypeAlgorithm, fileSystem, restorePointList);
+            var backupJob = new BackupJob("backupJob", @"Z:\", fileList, storageTypeAlgorithm, directories, restorePointList);
 
             backupJob.RunBackupJob();
-
-            Assert.AreEqual(fileSystem.Directories.Count, 1);
             int storageFile = 0;
-            foreach (IDirectory directory in fileSystem.Directories)
+
+            foreach (RestorePoint rp in restorePointList)
             {
-                foreach (IDirectory directoryChild in directory.Directories)
+                foreach (FileOfJob file in rp.StorageRestorePoint.ArchiveFileList)
                 {
-                    foreach (FileOfJob file in directoryChild.Files)
-                    {
-                        storageFile++;
-                    }
+                    storageFile++;
                 }
             }
+
             Assert.AreEqual(storageFile, 1);
+            Assert.AreEqual(directories.Directories.Count, 1);
         }
     }
 }

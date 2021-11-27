@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Backups.Classes;
-using Backups.InterfaceLab;
 using Backups.InterfaceLab.Actions;
 
 namespace Backups.Actions
@@ -9,11 +8,13 @@ namespace Backups.Actions
     public class SingleStorageSaving : IStorageTypeAlgorithm
     {
         private static int _pointCount = 1;
-        public Storage StorageCreation(List<FileOfJob> jobObjectsList, IDirectory lastPointDirectory)
-        {
-            var archive = new ArchiveFile(lastPointDirectory.Name + @"\" + $@"RestorePoint" + _pointCount + ".zip", jobObjectsList.Sum(x => x.Size));
+        public StorageType TypeStorage { get; set; } = StorageType.Single;
 
-            lastPointDirectory.Files.Add(archive);
+        public Storage StorageCreation(List<FileOfJob> jobObjectsList, DirectoryOfBackup directory)
+        {
+            var archive = new ArchiveFile(@"RestorePoint" + _pointCount + ".zip", jobObjectsList.Sum(x => x.Size), directory.Path);
+
+            directory.ArchiveFiles.Add(archive);
 
             foreach (FileOfJob file in jobObjectsList)
             {
@@ -21,7 +22,7 @@ namespace Backups.Actions
             }
 
             _pointCount++;
-            return new Storage(lastPointDirectory.Files, StorageType.Single);
+            return new Storage(directory.ArchiveFiles, StorageType.Single);
         }
     }
 }

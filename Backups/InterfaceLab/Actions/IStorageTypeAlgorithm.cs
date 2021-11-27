@@ -5,6 +5,7 @@ namespace Backups.InterfaceLab.Actions
 {
     public interface IStorageTypeAlgorithm
     {
-        public Storage StorageCreation(List<FileOfJob> jobObjectsList, IDirectory lastPointDirectory);
+        public StorageType TypeStorage { get; set; }
+        public Storage StorageCreation(List<FileOfJob> jobObjectsList, DirectoryOfBackup lastPointDirectory);
     }
 }

@@ -4,13 +4,17 @@ namespace Backups.Classes
 {
     public class Storage
     {
-        public Storage(List<FileOfJob> fileList, StorageType type)
+        public Storage()
+        {
+        }
+
+        public Storage(List<ArchiveFile> fileList, StorageType type)
         {
             Type = type;
             ArchiveFileList = fileList;
         }
 
-        public List<FileOfJob> ArchiveFileList { get; set; }
+        public List<ArchiveFile> ArchiveFileList { get; set; }
         public StorageType Type { get; set; }
     }
 }
