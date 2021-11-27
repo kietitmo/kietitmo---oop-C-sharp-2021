@@ -181,5 +181,31 @@ namespace BackupsExtra.Tests
 
             Assert.AreEqual(restorePointList.Count, 1);
         }
+
+        [Test]
+        public void Get_StateJob_From_ConfigFile()
+        {
+            var file1 = new FileOfJob("1.txt", 2, @"Z:\1.txt");
+            var file2 = new FileOfJob("2.txt", 2, @"Z:\2.txt");
+
+            var fileList = new List<FileOfJob>() { file1, file2 };
+
+            IStorageTypeAlgorithm storageTypeAlgorithm = new SingleStorageSaving();
+            var fileSystem = new DirectoriesManager();
+            var restorePointList = new List<RestorePoint>();
+            var backupJob = new BackupJob("backupJob", @"Z:\backupJob", fileList, storageTypeAlgorithm, fileSystem, restorePointList);
+
+            backupJob.RunBackupJob();
+            fileList.Remove(file2);
+            backupJob.RunBackupJob();
+            backupJob.RunBackupJob();
+
+            var infor = new BackupJobAndRestorePointManager(restorePointList, backupJob);
+            infor.Save();
+
+            BackupJobAndRestorePointManager infor2;
+            infor2 = infor.Load();
+            Assert.AreEqual(infor2.RestorePointList.Count, 3);
+        }
     }
 }

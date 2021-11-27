@@ -67,7 +67,15 @@ namespace BackupsExtra
 
             BackupJobAndRestorePointManager infor2;
             infor2 = infor.Load();
-            Console.WriteLine(infor2.RestorePointList.Count);
+
+            Console.WriteLine("================save and load=================");
+            foreach (RestorePoint rp in infor2.RestorePointList)
+            {
+                foreach (ArchiveFile file in rp.StorageRestorePoint.ArchiveFileList)
+                {
+                    Console.WriteLine(file.Name);
+                }
+            }
         }
     }
 }

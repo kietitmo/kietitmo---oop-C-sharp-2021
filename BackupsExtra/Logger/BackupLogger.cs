@@ -42,7 +42,7 @@ namespace BackupsExtra.Logger
 
         public void Log(LogType logType, string message)
         {
-            using (var writer = new StreamWriter(@"C:\Users\TUAN KIET\source\repos\kietitmo-labs-oop-2021\BackupsExtra\log.txt", true))
+            using (var writer = new StreamWriter(@"C:\Users\sirtu\Source\Repos\kietitmo\BackupsExtra\log.txt", true))
             {
                 writer.WriteLine($"{DateTime.Now} : {message}");
             }
