@@ -1,72 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 using Backups.Classes;
-using Backups.InterfaceLab;
 using Backups.InterfaceLab.Actions;
 
 namespace Backups.Actions
 {
-    public class ActionsOfBackup : IActionsOfBackup
+    [System.Serializable]
+    public class ActionsOfBackup
     {
         private static int pointCount = 0;
-        private IDirectory _lastPointDirectory;
-        private IDirectory _jobDirectory;
-        public ActionsOfBackup(string name, List<FileOfJob> jobObjectsList, IStorageTypeAlgorithm storageSaving, IFileSystem fileInSystem, List<RestorePoint> restorePoint)
+        private DirectoryOfBackup _lastDirectory;
+
+        public ActionsOfBackup(string name, string path, List<FileOfJob> jobObjectsList, IStorageTypeAlgorithm storageSaving, DirectoriesManager directoriesManager, List<RestorePoint> restorePoint)
         {
             Name = name;
+            Path = path;
             JobObjectsList = jobObjectsList;
             StorageSaving = storageSaving;
-            FileSystem = fileInSystem;
+            DirectoriesManager = directoriesManager;
             RestorePointList = restorePoint;
         }
 
+        public ActionsOfBackup()
+        {
+        }
+
+        [XmlIgnore]
         public IStorageTypeAlgorithm StorageSaving { get; set; }
         public string Name { get; set; }
+        public string Path { get; set; }
         public List<FileOfJob> JobObjectsList { get; set; }
         public List<RestorePoint> RestorePointList { get; set; }
-        public IFileSystem FileSystem { get; set; }
+        public DirectoriesManager DirectoriesManager { get; set; }
 
         public RestorePoint Run()
         {
-            CreateDirectory();
-            CreateRestorePoint();
-            StorageSaving.StorageCreation(JobObjectsList, _lastPointDirectory);
-
-            var point = new RestorePoint(JobObjectsList, _lastPointDirectory);
+            pointCount++;
+            _lastDirectory = new DirectoryOfBackup(Path + @"\" + $@"RestorePoint{pointCount}", Name + pointCount);
+            DirectoriesManager.Directories.Add(_lastDirectory);
+            var point = new RestorePoint(JobObjectsList, StorageSaving.StorageCreation(JobObjectsList, _lastDirectory), _lastDirectory);
             RestorePointList.Add(point);
             return point;
-        }
-
-        public void CreateDirectory()
-        {
-            if (FileSystem.Directories.Count != 0)
-            {
-                return;
-            }
-
-            _jobDirectory = new DirectoryOfBackup(Name);
-            FileSystem.Directories.Add(_jobDirectory);
-        }
-
-        public void CreateRestorePoint()
-        {
-            if (_jobDirectory == null)
-                throw new Exception("Job doesnt exist");
-
-            pointCount++;
-
-            _jobDirectory.ChildrenDirectories.RemoveAll(d => d.Name == $@"RestorePoint{pointCount}");
-
-            _lastPointDirectory = new DirectoryOfBackup(Path.Combine(Name, $@"RestorePoint {pointCount}"), _jobDirectory as DirectoryOfBackup);
-
-            _jobDirectory.ChildrenDirectories.Add(_lastPointDirectory);
-        }
-
-        public void DeleteRestorePoint(RestorePoint restorePointNeedToDelete)
-        {
-            _jobDirectory.ChildrenDirectories.Remove(restorePointNeedToDelete.DirectoryOfRestorePoint);
-            RestorePointList.Remove(restorePointNeedToDelete);
         }
     }
 }

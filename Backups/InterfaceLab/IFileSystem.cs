@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿////using System.Collections.Generic;
+////using Backups.Classes;
 
-namespace Backups.InterfaceLab
-{
-    public interface IFileSystem
-    {
-        public List<IDirectory> Directories { get; set; }
-    }
-}
+////namespace Backups.InterfaceLab
+////{
+////    public abstract class IFileSystem
+////    {
+////        public abstract List<DirectoryOfBackup> Directories { get; set; }
+////    }
+////}

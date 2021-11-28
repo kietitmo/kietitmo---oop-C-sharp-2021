@@ -1,29 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Backups.Actions;
 using Backups.Classes;
-using Backups.InterfaceLab;
 using Backups.InterfaceLab.Actions;
 
 namespace Backups.Service
 {
+    [Serializable]
     public class BackupJob
     {
-        private IActionsOfBackup _actionsOfJob;
-
-        public BackupJob(string name, List<FileOfJob> jobObjectsList, IStorageTypeAlgorithm storageSaving, IFileSystem fileSystem, List<RestorePoint> restorePointList)
+        public BackupJob(string name, string path, List<FileOfJob> jobObjectsList, IStorageTypeAlgorithm storageSaving, DirectoriesManager fileSystem, List<RestorePoint> restorePointList)
         {
-            _actionsOfJob = new ActionsOfBackup(name, jobObjectsList, storageSaving, fileSystem, restorePointList);
+            ActionsOfJob = new ActionsOfBackup(name, path, jobObjectsList, storageSaving, fileSystem, restorePointList);
+            TypeStorage = storageSaving.TypeStorage;
         }
+
+        public BackupJob()
+        {
+        }
+
+        public ActionsOfBackup ActionsOfJob { get; set; }
+        public StorageType TypeStorage { get; set; }
 
         public void RunBackupJob()
         {
-            _actionsOfJob.Run();
-            return;
-        }
-
-        public void DeleteRestorePoint(RestorePoint restorePointNeedToRemove)
-        {
-            _actionsOfJob.DeleteRestorePoint(restorePointNeedToRemove);
+            ActionsOfJob.Run();
             return;
         }
     }
