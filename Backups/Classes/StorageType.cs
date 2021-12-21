@@ -5,11 +5,11 @@
         /// <summary>
         /// Single Storage.
         /// </summary>
-        Single,
+        SingleStorage,
 
         /// <summary>
         /// Split Storage.
         /// </summary>
-        Split,
+        SplitStorage,
     }
 }
