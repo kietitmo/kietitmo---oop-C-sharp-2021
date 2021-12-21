@@ -25,17 +25,17 @@ namespace BackupsExtra.Logger
             return _instance;
         }
 
-        public void Info(string message)
+        public void BackupInfo(string message)
         {
             Log(LogType.Info, message);
         }
 
-        public void Warning(string message)
+        public void BackupWarning(string message)
         {
             Log(LogType.Warning, message);
         }
 
-        public void Error(string message)
+        public void BackupError(string message)
         {
             Log(LogType.Error, message);
         }
