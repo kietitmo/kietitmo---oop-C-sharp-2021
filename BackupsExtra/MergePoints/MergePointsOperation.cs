@@ -19,7 +19,7 @@ namespace BackupsExtra.MergePoints
 
         public void Merge()
         {
-            if (_secondRestorePoint.StorageRestorePoint.Type == StorageType.Single)
+            if (_secondRestorePoint.StorageRestorePoint.Type == StorageType.SingleStorage)
             {
                 _restorePointsList.Remove(_firstRestorePoint);
                 _directoriesManager.Directories.Remove(_firstRestorePoint.Directory);

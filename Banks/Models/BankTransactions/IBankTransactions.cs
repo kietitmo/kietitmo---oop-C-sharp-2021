@@ -6,7 +6,7 @@ namespace Banks.Models.BankTransactions
     {
         public Guid Id { get; }
         public Guid AccountOwnerId { get; set; }
-        public DateTime Date { get; }
+        public DateTime DateOfTrasnsaction { get; }
         public void DoOperation();
         public void UndoOperation();
     }

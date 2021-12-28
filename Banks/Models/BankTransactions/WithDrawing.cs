@@ -14,12 +14,12 @@ namespace Banks.Models.BankTransactions
             _sum = sum;
             Id = Guid.NewGuid();
             AccountOwnerId = acount.Id;
-            Date = date;
+            DateOfTrasnsaction = date;
         }
 
         public Guid AccountOwnerId { get; set; }
         public Guid Id { get; }
-        public DateTime Date { get; }
+        public DateTime DateOfTrasnsaction { get; }
 
         public void DoOperation()
         {

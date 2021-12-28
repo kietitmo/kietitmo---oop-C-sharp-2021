@@ -15,6 +15,6 @@ namespace Banks.Models.Account
         public Guid IdBank { get; set; }
         public List<INotification> Notification { get; set; }
         public bool IsTransactionAvailable(double sum);
-        public void UpdateBalance(DateTime date);
+        public void UpdateBalance(DateTime dateTime);
     }
 }

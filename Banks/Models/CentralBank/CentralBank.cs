@@ -314,19 +314,19 @@ namespace Banks.Models.CentralBank
             {
                 if (transaction is Transfering)
                 {
-                    Console.WriteLine(count + ". " + transaction.Date + " Tranfering transaction");
+                    Console.WriteLine(count + ". " + transaction.DateOfTrasnsaction + " Tranfering transaction");
                     count++;
                 }
 
                 if (transaction is WithDrawing)
                 {
-                    Console.WriteLine(count + ". " + transaction.Date + " Withdrawing transaction");
+                    Console.WriteLine(count + ". " + transaction.DateOfTrasnsaction + " Withdrawing transaction");
                     count++;
                 }
 
                 if (transaction is Replenishing)
                 {
-                    Console.WriteLine(count + ". " + transaction.Date + " Replenishing transaction");
+                    Console.WriteLine(count + ". " + transaction.DateOfTrasnsaction + " Replenishing transaction");
                     count++;
                 }
             }

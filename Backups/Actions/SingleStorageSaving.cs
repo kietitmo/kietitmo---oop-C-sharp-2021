@@ -8,7 +8,7 @@ namespace Backups.Actions
     public class SingleStorageSaving : IStorageTypeAlgorithm
     {
         private static int _pointCount = 1;
-        public StorageType TypeStorage { get; set; } = StorageType.Single;
+        public StorageType TypeStorage { get; set; } = StorageType.SingleStorage;
 
         public Storage StorageCreation(List<FileOfJob> jobObjectsList, DirectoryOfBackup directory)
         {
@@ -22,7 +22,7 @@ namespace Backups.Actions
             }
 
             _pointCount++;
-            return new Storage(directory.ArchiveFiles, StorageType.Single);
+            return new Storage(directory.ArchiveFiles, StorageType.SingleStorage);
         }
     }
 }

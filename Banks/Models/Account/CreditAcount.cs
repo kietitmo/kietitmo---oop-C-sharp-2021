@@ -43,15 +43,15 @@ namespace Banks.Models.Account
             return (Balance - sum) > DebtLimit.ValueDebtLimit;
         }
 
-        public void UpdateBalance(DateTime date)
+        public void UpdateBalance(DateTime dateTime)
         {
-            TimeSpan quantityDays = date - LastDateUpdate;
+            TimeSpan quantityDays = dateTime - LastDateUpdate;
             for (int i = 0; i < Math.Abs(quantityDays.TotalDays); i++)
             {
                 CalculateBalanceWithComission();
             }
 
-            LastDateUpdate = date;
+            LastDateUpdate = dateTime;
         }
     }
 }

@@ -16,13 +16,13 @@ namespace Banks.Models.BankTransactions
             Id = Guid.NewGuid();
             AccountOwnerId = fromAccount.Id;
             TargetAccountOwnerID = toAccount.Id;
-            Date = date;
+            DateOfTrasnsaction = date;
         }
 
         public Guid AccountOwnerId { get; set; }
         public Guid TargetAccountOwnerID { get; set; }
         public Guid Id { get; }
-        public DateTime Date { get; }
+        public DateTime DateOfTrasnsaction { get; }
 
         public void DoOperation()
         {
